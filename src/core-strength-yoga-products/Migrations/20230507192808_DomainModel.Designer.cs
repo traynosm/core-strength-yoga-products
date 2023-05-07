@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using core_strength_yoga_products.Data;
 
@@ -10,9 +11,11 @@ using core_strength_yoga_products.Data;
 namespace core_strength_yoga_products.Migrations
 {
     [DbContext(typeof(core_strength_yoga_productsContext))]
-    partial class core_strength_yoga_productsContextModelSnapshot : ModelSnapshot
+    [Migration("20230507192808_DomainModel")]
+    partial class DomainModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.5");
@@ -213,43 +216,6 @@ namespace core_strength_yoga_products.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("core_strength_yoga_products.Models.Colour", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("ColourName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Colour");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ColourName = "Unknown"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            ColourName = "Red"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            ColourName = "Green"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            ColourName = "Blue"
-                        });
-                });
-
             modelBuilder.Entity("core_strength_yoga_products.Models.Customer", b =>
                 {
                     b.Property<int>("Id")
@@ -274,21 +240,6 @@ namespace core_strength_yoga_products.Migrations
                     b.HasIndex("IdentityUserId");
 
                     b.ToTable("Customers");
-                });
-
-            modelBuilder.Entity("core_strength_yoga_products.Models.Gender", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("GenderName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Gender");
                 });
 
             modelBuilder.Entity("core_strength_yoga_products.Models.Order", b =>
@@ -376,13 +327,7 @@ namespace core_strength_yoga_products.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ColourId");
-
-                    b.HasIndex("GenderId");
-
                     b.HasIndex("ProductId");
-
-                    b.HasIndex("SizeId");
 
                     b.ToTable("ProductAttributes");
                 });
@@ -397,9 +342,8 @@ namespace core_strength_yoga_products.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("ProductCategoryName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("ProductCategoryName")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -416,28 +360,12 @@ namespace core_strength_yoga_products.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("ProductTypeName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("ProductTypeName")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
                     b.ToTable("ProductType");
-                });
-
-            modelBuilder.Entity("core_strength_yoga_products.Models.Size", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("SizeName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Size");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -532,33 +460,9 @@ namespace core_strength_yoga_products.Migrations
 
             modelBuilder.Entity("core_strength_yoga_products.Models.ProductAttributes", b =>
                 {
-                    b.HasOne("core_strength_yoga_products.Models.Colour", "Colour")
-                        .WithMany()
-                        .HasForeignKey("ColourId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("core_strength_yoga_products.Models.Gender", "Gender")
-                        .WithMany()
-                        .HasForeignKey("GenderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("core_strength_yoga_products.Models.Product", null)
                         .WithMany("ProductAttributes")
                         .HasForeignKey("ProductId");
-
-                    b.HasOne("core_strength_yoga_products.Models.Size", "Size")
-                        .WithMany()
-                        .HasForeignKey("SizeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Colour");
-
-                    b.Navigation("Gender");
-
-                    b.Navigation("Size");
                 });
 
             modelBuilder.Entity("core_strength_yoga_products.Models.Product", b =>

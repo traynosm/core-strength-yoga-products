@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using core_strength_yoga_products.Data;
 
@@ -10,9 +11,11 @@ using core_strength_yoga_products.Data;
 namespace core_strength_yoga_products.Migrations
 {
     [DbContext(typeof(core_strength_yoga_productsContext))]
-    partial class core_strength_yoga_productsContextModelSnapshot : ModelSnapshot
+    [Migration("20230507195650_Enum_Model_Props")]
+    partial class Enum_Model_Props
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.5");

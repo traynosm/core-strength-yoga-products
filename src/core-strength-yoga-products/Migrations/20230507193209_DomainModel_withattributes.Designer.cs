@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using core_strength_yoga_products.Data;
 
@@ -10,9 +11,11 @@ using core_strength_yoga_products.Data;
 namespace core_strength_yoga_products.Migrations
 {
     [DbContext(typeof(core_strength_yoga_productsContext))]
-    partial class core_strength_yoga_productsContextModelSnapshot : ModelSnapshot
+    [Migration("20230507193209_DomainModel_withattributes")]
+    partial class DomainModel_withattributes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.5");
@@ -219,35 +222,12 @@ namespace core_strength_yoga_products.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("ColourName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("ColourName")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
                     b.ToTable("Colour");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ColourName = "Unknown"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            ColourName = "Red"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            ColourName = "Green"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            ColourName = "Blue"
-                        });
                 });
 
             modelBuilder.Entity("core_strength_yoga_products.Models.Customer", b =>
@@ -282,9 +262,8 @@ namespace core_strength_yoga_products.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("GenderName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("GenderName")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -397,9 +376,8 @@ namespace core_strength_yoga_products.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("ProductCategoryName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("ProductCategoryName")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -416,9 +394,8 @@ namespace core_strength_yoga_products.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("ProductTypeName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("ProductTypeName")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -431,9 +408,8 @@ namespace core_strength_yoga_products.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("SizeName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("SizeName")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
