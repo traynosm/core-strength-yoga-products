@@ -396,3 +396,5 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+src/core-strength-yoga-products/.vscode/tasks.json
+src/core-strength-yoga-products/.vscode/launch.json
