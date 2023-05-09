@@ -3975,6 +3975,11 @@ ol {
 	.header-top .ht-right .login-panel {
 		padding-left: 10px;
 	}
+
+	.header-top .ht-right .login-panel .logout-button {
+		padding-left: 10px;
+	}
+	
 	.header-top .ht-right .top-social {
 		padding-right: 10px;
 	}
@@ -4049,6 +4054,10 @@ ol {
 	}
 	.header-top .ht-right .login-panel {
 		padding-top: 9px;
+		padding-bottom: 7px;
+	}
+	.header-top .ht-right .login-panel .logout-button {
+		padding-top: 7px;
 		padding-bottom: 7px;
 	}
 	.header-top .ht-right .lan-selector {
