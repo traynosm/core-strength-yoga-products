@@ -257,7 +257,7 @@ namespace core_strength_yoga_products.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("ProductId")
+                    b.Property<int>("ProductId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
@@ -265,6 +265,16 @@ namespace core_strength_yoga_products.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("Image");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Alt = "some alt",
+                            ImageName = "yoga-mat-1",
+                            Path = "",
+                            ProductId = 1
+                        });
                 });
 
             modelBuilder.Entity("core_strength_yoga_products.Models.Order", b =>
@@ -311,10 +321,10 @@ namespace core_strength_yoga_products.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("ProductCategoryId")
+                    b.Property<int>("ProductCategoryId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("ProductTypeId")
+                    b.Property<int>("ProductTypeId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
@@ -324,6 +334,17 @@ namespace core_strength_yoga_products.Migrations
                     b.HasIndex("ProductTypeId");
 
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "The worst yoga mat you have ever seen",
+                            FullPrice = 30m,
+                            Name = "Bog Standard Yoga Mat",
+                            ProductCategoryId = 1,
+                            ProductTypeId = 1
+                        });
                 });
 
             modelBuilder.Entity("core_strength_yoga_products.Models.ProductAttributes", b =>
@@ -341,7 +362,7 @@ namespace core_strength_yoga_products.Migrations
                     b.Property<decimal>("PriceAdjustment")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("ProductId")
+                    b.Property<int>("ProductId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Size")
@@ -355,6 +376,18 @@ namespace core_strength_yoga_products.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("ProductAttributes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Colour = 2,
+                            Gender = 1,
+                            PriceAdjustment = 0m,
+                            ProductId = 1,
+                            Size = 3,
+                            StockLevel = 10
+                        });
                 });
 
             modelBuilder.Entity("core_strength_yoga_products.Models.ProductCategory", b =>
@@ -374,6 +407,14 @@ namespace core_strength_yoga_products.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ProductCategory");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Our Selection of Mats",
+                            ProductCategoryName = "Mats"
+                        });
                 });
 
             modelBuilder.Entity("core_strength_yoga_products.Models.ProductType", b =>
@@ -393,6 +434,20 @@ namespace core_strength_yoga_products.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ProductType");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Our Selection of Equipment",
+                            ProductTypeName = "Equipment"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Our Selection of Clothing",
+                            ProductTypeName = "Clothing"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -459,7 +514,9 @@ namespace core_strength_yoga_products.Migrations
                 {
                     b.HasOne("core_strength_yoga_products.Models.Product", null)
                         .WithMany("Images")
-                        .HasForeignKey("ProductId");
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("core_strength_yoga_products.Models.Order", b =>
@@ -481,11 +538,15 @@ namespace core_strength_yoga_products.Migrations
                 {
                     b.HasOne("core_strength_yoga_products.Models.ProductCategory", "ProductCategory")
                         .WithMany()
-                        .HasForeignKey("ProductCategoryId");
+                        .HasForeignKey("ProductCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("core_strength_yoga_products.Models.ProductType", "ProductType")
                         .WithMany()
-                        .HasForeignKey("ProductTypeId");
+                        .HasForeignKey("ProductTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ProductCategory");
 
@@ -496,7 +557,9 @@ namespace core_strength_yoga_products.Migrations
                 {
                     b.HasOne("core_strength_yoga_products.Models.Product", null)
                         .WithMany("ProductAttributes")
-                        .HasForeignKey("ProductId");
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("core_strength_yoga_products.Models.Product", b =>

@@ -6,7 +6,9 @@ namespace core_strength_yoga_products.Models
     {
         [Key]
         public int Id { get; set; }
+        public int ProductCategoryId { get; set; }
         public virtual ProductCategory? ProductCategory { get; set; }
+        public int ProductTypeId { get; set; }
         public virtual ProductType? ProductType { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
