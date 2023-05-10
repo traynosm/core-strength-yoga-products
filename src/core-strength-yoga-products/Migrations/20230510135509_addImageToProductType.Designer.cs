@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using core_strength_yoga_products.Data;
 
@@ -10,16 +11,14 @@ using core_strength_yoga_products.Data;
 namespace core_strength_yoga_products.Migrations
 {
     [DbContext(typeof(core_strength_yoga_productsContext))]
-    partial class core_strength_yoga_productsContextModelSnapshot : ModelSnapshot
+    [Migration("20230510135509_addImageToProductType")]
+    partial class addImageToProductType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.5")
-                .HasAnnotation("Proxies:ChangeTracking", false)
-                .HasAnnotation("Proxies:CheckEquality", false)
-                .HasAnnotation("Proxies:LazyLoading", true);
+            modelBuilder.HasAnnotation("ProductVersion", "7.0.5");
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -404,16 +403,11 @@ namespace core_strength_yoga_products.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("ImageId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("ProductCategoryName")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ImageId");
 
                     b.ToTable("ProductCategory");
 
@@ -422,7 +416,6 @@ namespace core_strength_yoga_products.Migrations
                         {
                             Id = 1,
                             Description = "Our Selection of Mats",
-                            ImageId = 1,
                             ProductCategoryName = "Mats"
                         });
                 });
@@ -577,17 +570,6 @@ namespace core_strength_yoga_products.Migrations
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("core_strength_yoga_products.Models.ProductCategory", b =>
-                {
-                    b.HasOne("core_strength_yoga_products.Models.Image", "Image")
-                        .WithMany()
-                        .HasForeignKey("ImageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Image");
                 });
 
             modelBuilder.Entity("core_strength_yoga_products.Models.ProductType", b =>

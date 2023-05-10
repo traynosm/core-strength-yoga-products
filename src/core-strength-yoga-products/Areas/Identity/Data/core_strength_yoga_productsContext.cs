@@ -22,6 +22,8 @@ public class core_strength_yoga_productsContext : IdentityDbContext<IdentityUser
         SeedProducts(builder);
         SeedProductAttributes(builder);
         SeedImages(builder);
+
+
     }
 
     public DbSet<Product> Products { get; set; } = default!;
@@ -34,13 +36,15 @@ public class core_strength_yoga_productsContext : IdentityDbContext<IdentityUser
             new Models.ProductType(
                 id: 1,
                 productTypeName: "Equipment",
-                description: "Our Selection of Equipment"));
+                description: "Our Selection of Equipment",
+                imageId: 1));
 
         builder.Entity<Models.ProductType>().HasData(
            new Models.ProductType(
                 id: 2,
                 productTypeName: "Clothing",
-                description: "Our Selection of Clothing"));
+                description: "Our Selection of Clothing",
+                imageId: 1));
     }
 
     public static void SeedProductCategories(ModelBuilder builder)
@@ -49,7 +53,8 @@ public class core_strength_yoga_productsContext : IdentityDbContext<IdentityUser
             new Models.ProductCategory(
                 id: 1, 
                 productCategoryName: "Mats",
-                description: "Our Selection of Mats"));
+                description: "Our Selection of Mats",
+                imageId: 1));
     }
 
     public static void SeedProductAttributes(ModelBuilder builder)
@@ -71,7 +76,7 @@ public class core_strength_yoga_productsContext : IdentityDbContext<IdentityUser
                 id: 1,
                 imageName: "yoga-mat-1",
                 alt: "some alt",
-                path: "",
+                path: "~/images/banner-1.jpg",
                 productId: 1
             ));
     }
