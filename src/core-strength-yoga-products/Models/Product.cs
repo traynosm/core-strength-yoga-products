@@ -11,6 +11,7 @@ namespace core_strength_yoga_products.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public decimal FullPrice { get; set; }
+        public virtual ICollection<Image>? Images { get; set; }
         public virtual ICollection<ProductAttributes>? ProductAttributes { get; set; }
 
         public Product(int id, string name, string description, decimal fullPrice) 
