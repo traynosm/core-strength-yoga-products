@@ -11,11 +11,18 @@ namespace core_strength_yoga_products.Models
         public Enums.Colour Colour { get; set; }
         public Enums.Size Size { get; set; }
         public Enums.Gender Gender { get; set; }
+        public int ProductId { get; set; }
 
-        public ProductAttributes(int stockLevel, decimal priceAdjustment) 
+        public ProductAttributes(int id, int stockLevel, decimal priceAdjustment, 
+            Enums.Colour colour, Enums.Size size, Enums.Gender gender, int productId) 
         {
+            Id = id;
             StockLevel = stockLevel;
             PriceAdjustment = priceAdjustment;
+            Colour = colour;
+            Size = size;
+            Gender = gender;    
+            ProductId = productId;  
         }
     }
 }

@@ -13,8 +13,10 @@ namespace core_strength_yoga_products
             var builder = WebApplication.CreateBuilder(args);
             var connectionString = builder.Configuration.GetConnectionString("core_strength_yoga_productsContextConnection") ?? throw new InvalidOperationException("Connection string 'core_strength_yoga_productsContextConnection' not found.");
 
-            builder.Services.AddDbContext<core_strength_yoga_productsContext>(options => 
-                options.UseSqlite(connectionString));
+            builder.Services.AddDbContext<core_strength_yoga_productsContext>(options =>
+                options
+                    .UseLazyLoadingProxies()
+                    .UseSqlite(connectionString));
 
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<core_strength_yoga_productsContext>();
 
