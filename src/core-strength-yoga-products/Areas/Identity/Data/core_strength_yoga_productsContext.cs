@@ -16,7 +16,6 @@ public class core_strength_yoga_productsContext : IdentityDbContext<IdentityUser
     {
         base.OnModelCreating(builder);
 
-        SeedColours(builder);
     }
 
     public DbSet<Product> Products { get; set; } = default!;
@@ -24,11 +23,11 @@ public class core_strength_yoga_productsContext : IdentityDbContext<IdentityUser
     public DbSet<Order> Orders { get; set; }
 
 
-    private static void SeedColours(ModelBuilder builder)
-    {
-        builder.Entity<Colour>().HasData(new Colour(id: (int)Models.Enums.Colour.Unknown, colourName: Models.Enums.Colour.Unknown.ToString()));
-        builder.Entity<Colour>().HasData(new Colour(id: (int)Models.Enums.Colour.Red, colourName: Models.Enums.Colour.Red.ToString()));
-        builder.Entity<Colour>().HasData(new Colour(id: (int)Models.Enums.Colour.Green, colourName: Models.Enums.Colour.Green.ToString()));
-        builder.Entity<Colour>().HasData(new Colour(id: (int)Models.Enums.Colour.Blue, colourName: Models.Enums.Colour.Blue.ToString()));
-    }
+    //private static void SeedColours(ModelBuilder builder)
+    //{
+    //    builder.Entity<Colour>().HasData(new Colour(id: (int)Models.Enums.Colour.Unknown, colourName: Models.Enums.Colour.Unknown.ToString()));
+    //    builder.Entity<Colour>().HasData(new Colour(id: (int)Models.Enums.Colour.Red, colourName: Models.Enums.Colour.Red.ToString()));
+    //    builder.Entity<Colour>().HasData(new Colour(id: (int)Models.Enums.Colour.Green, colourName: Models.Enums.Colour.Green.ToString()));
+    //    builder.Entity<Colour>().HasData(new Colour(id: (int)Models.Enums.Colour.Blue, colourName: Models.Enums.Colour.Blue.ToString()));
+    //}
 }

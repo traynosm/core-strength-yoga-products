@@ -11,8 +11,8 @@ using core_strength_yoga_products.Data;
 namespace core_strength_yoga_products.Migrations
 {
     [DbContext(typeof(core_strength_yoga_productsContext))]
-    [Migration("20230507192808_DomainModel")]
-    partial class DomainModel
+    [Migration("20230510104120_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -242,6 +242,34 @@ namespace core_strength_yoga_products.Migrations
                     b.ToTable("Customers");
                 });
 
+            modelBuilder.Entity("core_strength_yoga_products.Models.Image", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Alt")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ImageName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Path")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Image");
+                });
+
             modelBuilder.Entity("core_strength_yoga_products.Models.Order", b =>
                 {
                     b.Property<int>("Id")
@@ -307,10 +335,10 @@ namespace core_strength_yoga_products.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("ColourId")
+                    b.Property<int>("Colour")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("GenderId")
+                    b.Property<int>("Gender")
                         .HasColumnType("INTEGER");
 
                     b.Property<decimal>("PriceAdjustment")
@@ -319,7 +347,7 @@ namespace core_strength_yoga_products.Migrations
                     b.Property<int?>("ProductId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("SizeId")
+                    b.Property<int>("Size")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("StockLevel")
@@ -342,8 +370,9 @@ namespace core_strength_yoga_products.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("ProductCategoryName")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("ProductCategoryName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -360,8 +389,9 @@ namespace core_strength_yoga_products.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("ProductTypeName")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("ProductTypeName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -428,6 +458,13 @@ namespace core_strength_yoga_products.Migrations
                     b.Navigation("IdentityUser");
                 });
 
+            modelBuilder.Entity("core_strength_yoga_products.Models.Image", b =>
+                {
+                    b.HasOne("core_strength_yoga_products.Models.Product", null)
+                        .WithMany("Images")
+                        .HasForeignKey("ProductId");
+                });
+
             modelBuilder.Entity("core_strength_yoga_products.Models.Order", b =>
                 {
                     b.HasOne("core_strength_yoga_products.Models.Customer", "Customer")
@@ -467,6 +504,8 @@ namespace core_strength_yoga_products.Migrations
 
             modelBuilder.Entity("core_strength_yoga_products.Models.Product", b =>
                 {
+                    b.Navigation("Images");
+
                     b.Navigation("ProductAttributes");
                 });
 #pragma warning restore 612, 618

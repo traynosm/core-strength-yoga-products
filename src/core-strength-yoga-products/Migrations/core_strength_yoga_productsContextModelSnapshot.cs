@@ -213,43 +213,6 @@ namespace core_strength_yoga_products.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("core_strength_yoga_products.Models.Colour", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("ColourName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Colour");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ColourName = "Unknown"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            ColourName = "Red"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            ColourName = "Green"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            ColourName = "Blue"
-                        });
-                });
-
             modelBuilder.Entity("core_strength_yoga_products.Models.Customer", b =>
                 {
                     b.Property<int>("Id")
@@ -276,19 +239,32 @@ namespace core_strength_yoga_products.Migrations
                     b.ToTable("Customers");
                 });
 
-            modelBuilder.Entity("core_strength_yoga_products.Models.Gender", b =>
+            modelBuilder.Entity("core_strength_yoga_products.Models.Image", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("GenderName")
+                    b.Property<string>("Alt")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("ImageName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Path")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Gender");
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Image");
                 });
 
             modelBuilder.Entity("core_strength_yoga_products.Models.Order", b =>
@@ -356,10 +332,10 @@ namespace core_strength_yoga_products.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("ColourId")
+                    b.Property<int>("Colour")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("GenderId")
+                    b.Property<int>("Gender")
                         .HasColumnType("INTEGER");
 
                     b.Property<decimal>("PriceAdjustment")
@@ -368,7 +344,7 @@ namespace core_strength_yoga_products.Migrations
                     b.Property<int?>("ProductId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("SizeId")
+                    b.Property<int>("Size")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("StockLevel")
@@ -376,13 +352,7 @@ namespace core_strength_yoga_products.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ColourId");
-
-                    b.HasIndex("GenderId");
-
                     b.HasIndex("ProductId");
-
-                    b.HasIndex("SizeId");
 
                     b.ToTable("ProductAttributes");
                 });
@@ -423,21 +393,6 @@ namespace core_strength_yoga_products.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ProductType");
-                });
-
-            modelBuilder.Entity("core_strength_yoga_products.Models.Size", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("SizeName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Size");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -500,6 +455,13 @@ namespace core_strength_yoga_products.Migrations
                     b.Navigation("IdentityUser");
                 });
 
+            modelBuilder.Entity("core_strength_yoga_products.Models.Image", b =>
+                {
+                    b.HasOne("core_strength_yoga_products.Models.Product", null)
+                        .WithMany("Images")
+                        .HasForeignKey("ProductId");
+                });
+
             modelBuilder.Entity("core_strength_yoga_products.Models.Order", b =>
                 {
                     b.HasOne("core_strength_yoga_products.Models.Customer", "Customer")
@@ -532,37 +494,15 @@ namespace core_strength_yoga_products.Migrations
 
             modelBuilder.Entity("core_strength_yoga_products.Models.ProductAttributes", b =>
                 {
-                    b.HasOne("core_strength_yoga_products.Models.Colour", "Colour")
-                        .WithMany()
-                        .HasForeignKey("ColourId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("core_strength_yoga_products.Models.Gender", "Gender")
-                        .WithMany()
-                        .HasForeignKey("GenderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("core_strength_yoga_products.Models.Product", null)
                         .WithMany("ProductAttributes")
                         .HasForeignKey("ProductId");
-
-                    b.HasOne("core_strength_yoga_products.Models.Size", "Size")
-                        .WithMany()
-                        .HasForeignKey("SizeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Colour");
-
-                    b.Navigation("Gender");
-
-                    b.Navigation("Size");
                 });
 
             modelBuilder.Entity("core_strength_yoga_products.Models.Product", b =>
                 {
+                    b.Navigation("Images");
+
                     b.Navigation("ProductAttributes");
                 });
 #pragma warning restore 612, 618
