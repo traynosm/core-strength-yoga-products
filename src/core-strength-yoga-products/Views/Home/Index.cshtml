@@ -1,7 +1,8 @@
-﻿@{
+﻿@model List<core_strength_yoga_products.Models.Dtos.DepartmentDto>;
+
+@{
     ViewData["Title"] = "Home Page";
 }
-
 
 <section class="hero-section">
   <div class="hero-items owl-carousel">
@@ -42,9 +43,20 @@
 <div class="banner-section spad">
   <div class="container-fluid">
       <div class="row">
-          <div class="col-lg-4">
+          @foreach (var department in Model)
+          {
+              <div class="col-lg-4">
+                  <div class="single-banner">
+                      <img src="data:image/jpeg;base64,@department.Base64Image" alt="@department.DepartmentName"/>
+                      <div class="inner-text">
+                          <h4>@department.DepartmentName</h4>
+                      </div>
+                  </div>
+              </div>
+          }
+          <!--div class="col-lg-4">
               <div class="single-banner">
-                  <img src="~/images/banner-1.jpg" alt="" />
+                  <img src="~/images/banner-1.jpg" alt=""/>
                   <div class="inner-text">
                       <h4>Men’s</h4>
                   </div>
@@ -52,20 +64,20 @@
           </div>
           <div class="col-lg-4">
               <div class="single-banner">
-                  <img src="~/images/banner-2.jpg" alt="" />
+                  <img src="~/images/banner-2.jpg" alt=""/>
                   <div class="inner-text">
                       <h4>Women’s</h4>
                   </div>
               </div>
           </div>
-          <div class="col-lg-4">
+          <div-- class="col-lg-4">
               <div class="single-banner">
-                  <img src="~/images/banner-3.jpg" alt="" />
+                  <img src="~/images/banner-3.jpg" alt=""/>
                   <div class="inner-text">
                       <h4>Kid’s</h4>
                   </div>
               </div>
-          </div>
+          </div-->
       </div>
   </div>
 </div>
@@ -335,37 +347,37 @@
   <div class="insta-item set-bg" data-setbg="../images/insta-1.jpg">
       <div class="inside-text">
           <i class="ti-instagram"></i>
-          <h5><a href="#">jassa_Collection</a></h5>
+          <h5><a href="#">Yoga_Collection</a></h5>
       </div>
   </div>
   <div class="insta-item set-bg" data-setbg="../images/insta-2.jpg">
       <div class="inside-text">
           <i class="ti-instagram"></i>
-          <h5><a href="#">jassa_Collection</a></h5>
+          <h5><a href="#">Yoga_Collection</a></h5>
       </div>
   </div>
   <div class="insta-item set-bg" data-setbg="../images/insta-3.jpg">
       <div class="inside-text">
           <i class="ti-instagram"></i>
-          <h5><a href="#">jassa_Collection</a></h5>
+          <h5><a href="#">Yoga_Collection</a></h5>
       </div>
   </div>
   <div class="insta-item set-bg" data-setbg="../images/insta-1.jpg">
       <div class="inside-text">
           <i class="ti-instagram"></i>
-          <h5><a href="#">jassa_Collection</a></h5>
+          <h5><a href="#">Yoga_Collection</a></h5>
       </div>
   </div>
   <div class="insta-item set-bg" data-setbg="../images/insta-2.jpg">
       <div class="inside-text">
           <i class="ti-instagram"></i>
-          <h5><a href="#">jassa_Collection</a></h5>
+          <h5><a href="#">Yoga_Collection</a></h5>
       </div>
   </div>
   <div class="insta-item set-bg" data-setbg="../images/insta-3.jpg">
       <div class="inside-text">
           <i class="ti-instagram"></i>
-          <h5><a href="#">jassa_Collection</a></h5>
+          <h5><a href="#">Yoga_Collection</a></h5>
       </div>
   </div>
 </div>
