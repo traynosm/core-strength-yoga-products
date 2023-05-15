@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using core_strength_yoga_products.Data;
 using Microsoft.Data.Sqlite;
 using System.Data.SQLite;
+using core_strength_yoga_products.Services;
 
 namespace core_strength_yoga_products
 {
@@ -24,6 +25,8 @@ namespace core_strength_yoga_products
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddHttpClient<DepartmentService>();
+
 
             var app = builder.Build();
 
