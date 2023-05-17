@@ -22,8 +22,8 @@ namespace core_strength_yoga_products.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var departments = _departmentService.GetDepartments().Result;
-            return View(departments);
+            var categories = _departmentService.GetDepartments().Result;
+            return View(categories);
         }
 
         public IActionResult Privacy()

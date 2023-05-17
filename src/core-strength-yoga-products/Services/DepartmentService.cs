@@ -19,10 +19,10 @@ public class DepartmentService : IDepartmentService
             
     }
 
-    public async Task<IEnumerable<DepartmentDto>> GetDepartments()
+    public async Task<IEnumerable<ProductCategoryDto>> GetDepartments()
     {
 
-        return await _httpClient.GetFromJsonAsync<IEnumerable<DepartmentDto>>("/Department/Departments");
+        return await _httpClient.GetFromJsonAsync<IEnumerable<ProductCategoryDto>>("/Products/ByType");
     }
 
 }
