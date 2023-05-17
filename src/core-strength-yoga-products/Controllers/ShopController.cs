@@ -15,7 +15,7 @@ namespace core_strength_yoga_products.Controllers
             _dbContext = dbContext;
         }
 
-        public IActionResult Index()
+       /* public IActionResult Index()
         {
             var productCategories = _dbContext.Products.Select(
                 p => p.ProductCategory).ToList();
@@ -27,9 +27,9 @@ namespace core_strength_yoga_products.Controllers
         {
             var products = _dbContext.Products.Where(
                 p => p.ProductCategoryId == productCategoryId)
-                .Include(p => p.Images);
+                .Include(p => p.Image);
 
             return View(products);
-        }
+        }*/
     }
 }

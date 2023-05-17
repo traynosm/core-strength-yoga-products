@@ -2,7 +2,8 @@
     ViewData["Title"] = "Shop";
 }
 
-@model IEnumerable<ProductCategory>
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model IEnumerable<core_strength_yoga_products.Models.Dtos.ProductCategoryDto>
 
 <span>This is the Shop</span>
 
@@ -17,13 +18,13 @@
 {
               <div class="col-lg-6">
                   <div class="single-banner">
-                      <a asp-area="" asp-controller="Shop" asp-action="Gallery" 
+                      <!--a asp-area="" asp-controller="Shop" asp-action="Gallery" 
                               asp-route-productCategoryId=@productCategory.Id>
                       <img src=@productCategory.Image.Path alt=@productCategory.Image.Alt asp-append-version="true"/>
                       <div class="inner-text">
                               <h4>@productCategory.ProductCategoryName</h4>
                       </div>
-                      </a>
+                      </a-->
                   </div>
               </div>
 }

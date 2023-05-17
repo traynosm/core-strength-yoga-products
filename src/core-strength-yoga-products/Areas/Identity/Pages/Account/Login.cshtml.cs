@@ -26,6 +26,7 @@ namespace core_strength_yoga_products.Areas.Identity.Pages.Account
         {
             _signInManager = signInManager;
             _logger = logger;
+            _logger = logger;
         }
 
         /// <summary>

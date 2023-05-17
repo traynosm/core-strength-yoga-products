@@ -7,8 +7,9 @@ public class DepartmentDto
     public int Id { get; set; }
     public string DepartmentName { get; set; }
     public string Base64Image { get; set; }
+
     
-    public static DepartmentDto Resolve(Department department)
+    /*public static DepartmentDto Resolve(Department department)
     {
         return new DepartmentDto()
         {
@@ -25,5 +26,5 @@ public class DepartmentDto
             Departmentname = departmentDto.DepartmentName,
             Base64Image = departmentDto.Base64Image
         };
-    }
+    }*/
 }

@@ -6,23 +6,23 @@ using core_strength_yoga_products.Models.Dtos;
 
 namespace core_strength_yoga_products.Services;
 
-public class DepartmentService : IDepartmentService
+public class ProductCategoryService : IProductCategoryService
 {
     
     private readonly HttpClient _httpClient;
     
 
-    public DepartmentService(HttpClient httpClient)
+    public ProductCategoryService(HttpClient httpClient)
     {
         _httpClient = httpClient;
         _httpClient.BaseAddress = new Uri(baseURI);
             
     }
 
-    public async Task<IEnumerable<ProductCategoryDto>> GetDepartments()
+    public async Task<IEnumerable<ProductDto>> GetCategories()
     {
 
-        return await _httpClient.GetFromJsonAsync<IEnumerable<ProductCategoryDto>>("/Products/ByType");
+        return await _httpClient.GetFromJsonAsync<IEnumerable<ProductDto>>("/Products/Categories");
     }
 
 }

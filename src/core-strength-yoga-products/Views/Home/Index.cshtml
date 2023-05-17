@@ -1,4 +1,4 @@
-﻿@model List<core_strength_yoga_products.Models.Dtos.DepartmentDto>;
+﻿@model List<core_strength_yoga_products.Models.Dtos.ProductCategoryDto>;
 
 @{
     ViewData["Title"] = "Home Page";
@@ -43,13 +43,13 @@
 <div class="banner-section spad">
   <div class="container-fluid">
       <div class="row">
-          @foreach (var department in Model)
+          @foreach (var category in Model)
           {
               <div class="col-lg-4">
                   <div class="single-banner">
-                      <img src="data:image/jpeg;base64,@department.Base64Image" alt="@department.DepartmentName"/>
+                      <img src="data:image/jpeg;base64,@category.Image.Path" alt="@category.Image.Alt"/>
                       <div class="inner-text">
-                          <h4>@department.DepartmentName</h4>
+                          <h4>@category.Description</h4>
                       </div>
                   </div>
               </div>
