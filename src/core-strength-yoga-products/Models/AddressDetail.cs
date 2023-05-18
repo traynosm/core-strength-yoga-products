@@ -1,12 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace core_strength_yoga_products.Models
+﻿namespace core_strength_yoga_products.Models
 {
     public class AddressDetail
     {
-        [Key]
         public int Id { get; set; }
-        public virtual CustomerDetail? Customer { get; set; }
         public string StreetAddr { get; set; }
         public string AddrLine2 { get; set; }
         public string City { get; set; }
@@ -14,10 +10,12 @@ namespace core_strength_yoga_products.Models
         public string Country { get; set; }
         public string PostCode { get; set; }
 
-        public AddressDetail (int id, CustomerDetail? customer, string streetAddr, string addrLine2, string city, string county, string country, string postCode)
+        public AddressDetail() { }
+
+        public AddressDetail(int id, CustomerDetail? customer, string streetAddr,
+            string addrLine2, string city, string county, string country, string postCode)
         {
             Id = id;
-            Customer = customer;
             StreetAddr = streetAddr;
             AddrLine2 = addrLine2;
             City = city;

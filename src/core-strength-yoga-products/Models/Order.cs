@@ -1,21 +1,24 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace core_strength_yoga_products.Models
+﻿namespace core_strength_yoga_products.Models
 {
     public class Order
     {
-        [Key]
         public int Id { get; set; }
-        public virtual Product? Product { get; set; }
-        public virtual Customer? Customer { get; set; }
+        public IEnumerable<BasketItem> Items { get; set; }
+        public int CustomerId { get; set; }
         public DateTime? DateOfSale { get; set; }
         public decimal OrderTotal { get; set; }
+        public bool IsPaid { get; set; }
+        public int ShippingAddressId { get; set; }
 
-        public Order (int id, DateTime? dateOfSale, decimal orderTotal)
+        public Order() { }
+
+        public Order(int id, DateTime? dateOfSale, decimal orderTotal, int customerId, bool isPaid)
         {
             Id = id;
             DateOfSale = dateOfSale;
             OrderTotal = orderTotal;
+            CustomerId = customerId;
+            IsPaid = isPaid;
         }
     }
 }

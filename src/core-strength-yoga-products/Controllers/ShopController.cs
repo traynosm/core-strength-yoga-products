@@ -17,19 +17,12 @@ namespace core_strength_yoga_products.Controllers
 
         public IActionResult Index()
         {
-            var productCategories = _dbContext.Products.Select(
-                p => p.ProductCategory).ToList();
-
-            return View(productCategories);
+            return View();  
         }
 
         public IActionResult Gallery(int productCategoryId) 
         {
-            var products = _dbContext.Products.Where(
-                p => p.ProductCategoryId == productCategoryId)
-                .Include(p => p.Images);
-
-            return View(products);
+            return View();
         }
     }
 }

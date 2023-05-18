@@ -1,27 +1,37 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace core_strength_yoga_products.Models
+﻿namespace core_strength_yoga_products.Models
 {
     public class Product
     {
-        [Key]
         public int Id { get; set; }
-        public int ProductCategoryId { get; set; }
-        public virtual ProductCategory? ProductCategory { get; set; }
-        public int ProductTypeId { get; set; }
-        public virtual ProductType? ProductType { get; set; }
+        public ProductCategory ProductCategory { get; set; }
+        public ProductType ProductType { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public decimal FullPrice { get; set; }
-        public virtual ICollection<Image>? Images { get; set; }
-        public virtual ICollection<ProductAttributes>? ProductAttributes { get; set; }
+        public Image Image { get; set; }
+        public IEnumerable<ProductAttributes> ProductAttributes { get; set; }
 
-        public Product(int id, string name, string description, decimal fullPrice) 
+        public Product() { }
+        public Product(int id, string name, string description, decimal fullPrice)
         {
             Id = id;
             Name = name;
             Description = description;
             FullPrice = fullPrice;
+        }
+
+        public Product(int id, string name, string description, decimal fullPrice,
+            ProductCategory productCategory, ProductType productType, Image image,
+            List<ProductAttributes> productAttributes)
+        {
+            Id = id;
+            Name = name;
+            Description = description;
+            FullPrice = fullPrice;
+            ProductCategory = productCategory;
+            ProductType = productType;
+            Image = image;
+            ProductAttributes = productAttributes;
         }
     }
 }

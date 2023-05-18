@@ -1,5 +1,4 @@
-﻿using Microsoft.Build.ObjectModelRemoting;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace core_strength_yoga_products.Models
 {
@@ -9,18 +8,16 @@ namespace core_strength_yoga_products.Models
         public int Id { get; set; }
         public string ProductTypeName { get; set; }
         public string Description { get; set; }
-        public int ImageId { get; set; }
-        public virtual Image Image { get; set; }
+        public Image Image { get; set; }
 
         public ProductType() { }    
 
-        public ProductType(int id, string productTypeName, string description, int imageId)
+        public ProductType(int id, string productTypeName, string description, Image image)
         {
             Id = id;
             ProductTypeName = productTypeName;
             Description = description;
-            ImageId = imageId;  
+            Image = image;  
         }
-
     }
 }
