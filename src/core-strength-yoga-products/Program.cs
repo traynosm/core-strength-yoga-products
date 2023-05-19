@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using core_strength_yoga_products.Data;
 using core_strength_yoga_products.Services;
-using core_strength_yoga_products.Interfaces;
 using core_strength_yoga_products.Settings;
 
 namespace core_strength_yoga_products

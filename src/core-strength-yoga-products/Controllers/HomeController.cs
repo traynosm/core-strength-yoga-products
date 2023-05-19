@@ -1,5 +1,4 @@
-﻿using core_strength_yoga_products.Interfaces;
-using core_strength_yoga_products.Models;
+﻿using core_strength_yoga_products.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using core_strength_yoga_products.Models.Dtos;
@@ -10,7 +9,6 @@ namespace core_strength_yoga_products.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IDepartmentService _departmentService;
 
         private readonly ProductCategoryService _productCategoryService;
         private readonly ProductTypeService _prodcuctTypeService;
