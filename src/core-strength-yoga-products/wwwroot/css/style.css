@@ -993,6 +993,14 @@ ol {
 	border-radius: 2px;
 }
 
+.single-banner .inner-text h5 {
+	color: #252525;
+	font-weight: 700;
+	padding: 11px 28px;
+	background: #ffffff;
+	border-radius: 2px;
+}
+
 /*---------------------
   Women Banner Section
 -----------------------*/

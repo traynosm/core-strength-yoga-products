@@ -19,10 +19,10 @@ public class ProductCategoryService : IProductCategoryService
             
     }
 
-    public async Task<IEnumerable<ProductDto>> GetCategories()
+    public async Task<IEnumerable<ProductCategoryDto>> GetCategories()
     {
 
-        return await _httpClient.GetFromJsonAsync<IEnumerable<ProductDto>>("/Products/Categories");
+        return await _httpClient.GetFromJsonAsync<IEnumerable<ProductCategoryDto>>("/ProductCategories");
     }
 
 }

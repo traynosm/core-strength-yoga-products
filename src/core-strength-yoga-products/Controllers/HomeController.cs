@@ -2,6 +2,7 @@
 using core_strength_yoga_products.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using core_strength_yoga_products.Models.Dtos;
 using core_strength_yoga_products.Services;
 
 namespace core_strength_yoga_products.Controllers
@@ -11,19 +12,25 @@ namespace core_strength_yoga_products.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IDepartmentService _departmentService;
 
-        private readonly DepartmentService _departmentService;
+        private readonly ProductCategoryService _productCategoryService;
+        private readonly ProductTypeService _prodcuctTypeService;
 
-        public HomeController(ILogger<HomeController> logger, DepartmentService departmentService)
+        public HomeController(ILogger<HomeController> logger, ProductCategoryService productCategoryService, ProductTypeService productTypeService)
         {
             _logger = logger;
-            _departmentService = departmentService;
-            _departmentService = departmentService;
+            _productCategoryService = productCategoryService;
+            _prodcuctTypeService = productTypeService;
         }
 
         public async Task<IActionResult> Index()
         {
-            var categories = _departmentService.GetDepartments().Result;
-            return View(categories);
+            HomeDto homeDto = new HomeDto();
+            var categories = _productCategoryService.GetCategories().Result;
+            var types = _prodcuctTypeService.GetTypes().Result;
+
+            homeDto.productCategories = categories;
+            homeDto.productTypes = types;
+            return View(homeDto);
         }
 
         public IActionResult Privacy()
