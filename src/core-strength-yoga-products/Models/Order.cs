@@ -3,7 +3,7 @@
     public class Order
     {
         public int Id { get; set; }
-        public IEnumerable<BasketItem> Items { get; set; }
+        public virtual IEnumerable<BasketItem> Items { get; set; }
         public int CustomerId { get; set; }
         public DateTime? DateOfSale { get; set; }
         public decimal OrderTotal { get; set; }

@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using core_strength_yoga_products.Data;
+using Microsoft.Data.Sqlite;
+using System.Data.SQLite;
 using core_strength_yoga_products.Services;
-using core_strength_yoga_products.Interfaces;
+using core_strength_yoga_products.Services;
 using core_strength_yoga_products.Settings;
 
 namespace core_strength_yoga_products
@@ -29,9 +31,8 @@ namespace core_strength_yoga_products
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-
-            builder.Services.AddHttpClient<IDepartmentService, DepartmentService>();
-            builder.Services.AddHttpClient<IProductCategoryService, ProductCategoryService>();
+            builder.Services.AddHttpClient<ProductCategoryService>();
+            builder.Services.AddHttpClient<ProductTypeService>();
 
             builder.Services.Configure<ApiSettings>(o =>
                 configuration.GetSection("ApiSettings").Bind(o));

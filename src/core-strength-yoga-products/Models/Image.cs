@@ -6,13 +6,7 @@
         public string ImageName { get; set; }
         public string Alt { get; set; }
         public string Path { get; set; }
+        public int ProductId { get; set; }
 
-        public Image(int id, string imageName, string alt, string path)
-        {
-            Id = id;
-            ImageName = imageName;
-            Alt = alt;
-            Path = path;
-        }
     }
 }

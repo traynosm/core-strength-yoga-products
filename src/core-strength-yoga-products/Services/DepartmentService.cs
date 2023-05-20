@@ -1,29 +1,28 @@
-﻿using core_strength_yoga_products.Interfaces;
-using core_strength_yoga_products.Models;
+﻿using core_strength_yoga_products.Models;
 using core_strength_yoga_products.Settings;
-using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.Extensions.Options;
 
-namespace core_strength_yoga_products.Services
+namespace core_strength_yoga_products.Services;
+
+public class DepartmentService : IDepartmentService
 {
-    public class DepartmentService : IDepartmentService
+    private readonly IOptions<ApiSettings> _settings;
+    private readonly HttpClient _httpClient;
+    
+    public DepartmentService(HttpClient httpClient, IOptions<ApiSettings> settings)
     {
-        private readonly HttpClient _httpClient;
-        private readonly IOptions<ApiSettings> _options;
-        public DepartmentService(HttpClient httpClient, IOptions<ApiSettings> options)
-        {
-            _httpClient = httpClient;
-            _options = options;
+        _httpClient = httpClient;
+        _settings = settings;
 
-            _httpClient.BaseAddress = new Uri(_options.Value.BaseUrl);
-        }
-
-        public async Task<IEnumerable<ProductType>> GetDepartments()
-        {
-            var response = await _httpClient.GetFromJsonAsync<IEnumerable<ProductType>>(
-                "/ProductTypes") ?? throw new Exception();
-
-            return response;
-        }
+        _httpClient.BaseAddress = new Uri(_settings.Value.BaseUrl);         
     }
+
+    public async Task<IEnumerable<ProductCategory>> GetDepartments()
+    {
+        var response =  await _httpClient.GetFromJsonAsync<IEnumerable<ProductCategory>>(
+            "/Products/ByType") ?? throw new Exception();
+
+        return response;
+    }
+
 }

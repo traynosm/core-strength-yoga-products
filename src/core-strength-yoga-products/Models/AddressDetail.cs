@@ -3,6 +3,7 @@
     public class AddressDetail
     {
         public int Id { get; set; }
+        public int CustomerDetailId { get; set; }
         public string StreetAddr { get; set; }
         public string AddrLine2 { get; set; }
         public string City { get; set; }
@@ -13,7 +14,8 @@
         public AddressDetail() { }
 
         public AddressDetail(int id, CustomerDetail? customer, string streetAddr,
-            string addrLine2, string city, string county, string country, string postCode)
+            string addrLine2, string city, string county, string country, string postCode,
+            int customerDetailId)
         {
             Id = id;
             StreetAddr = streetAddr;
@@ -22,6 +24,7 @@
             County = county;
             Country = country;
             PostCode = postCode;
+            CustomerDetailId = customerDetailId;
         }
     }
 }

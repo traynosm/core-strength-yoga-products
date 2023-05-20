@@ -9,15 +9,6 @@
         public Enums.Size Size { get; set; }
         public Enums.Gender Gender { get; set; }
 
-        public ProductAttributes(int id, int stockLevel, decimal priceAdjustment, 
-            Enums.Colour colour, Enums.Size size, Enums.Gender gender) 
-        {
-            Id = id;
-            StockLevel = stockLevel;
-            PriceAdjustment = priceAdjustment;
-            Colour = colour;
-            Size = size;
-            Gender = gender;     
-        }
+
     }
 }
