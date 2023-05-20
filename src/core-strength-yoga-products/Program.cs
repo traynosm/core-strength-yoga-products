@@ -31,8 +31,10 @@ namespace core_strength_yoga_products
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-            builder.Services.AddHttpClient<ProductCategoryService>();
-            builder.Services.AddHttpClient<ProductTypeService>();
+            builder.Services.AddHttpClient<IProductCategoryService, ProductCategoryService>();
+            builder.Services.AddHttpClient<IProductTypeService, ProductTypeService>();
+            builder.Services.AddHttpClient<IProductService, ProductService>();
+
 
             builder.Services.Configure<ApiSettings>(o =>
                 configuration.GetSection("ApiSettings").Bind(o));

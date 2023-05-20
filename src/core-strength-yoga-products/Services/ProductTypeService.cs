@@ -24,5 +24,13 @@ public class ProductTypeService : IProductTypeService
 
         return response;
     }
+    public async Task<IEnumerable<ProductType>> GetTypesByCategoryId(int id)
+    {
+        var response = await _httpClient.GetFromJsonAsync<IEnumerable<ProductType>>(
+            $"/ProductTypes/ByCategoryId/{id}") ?? throw new Exception();
+
+        return response;
+    }
+
 
 }

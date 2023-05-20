@@ -6,7 +6,9 @@ namespace core_strength_yoga_products.Services;
 
 public interface IProductTypeService
 {
-    public Task<IEnumerable<ProductType>?> GetTypes();
+    Task<IEnumerable<ProductType>?> GetTypes();
+
+    Task<IEnumerable<ProductType>> GetTypesByCategoryId(int id);
 
 
 }

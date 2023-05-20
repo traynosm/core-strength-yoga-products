@@ -1,0 +1,28 @@
+﻿@model core_strength_yoga_products.Models.Product
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-6">
+             <div class="single-banner">
+                    <a asp-area="" asp-controller="Shop" asp-action="Product"
+           asp-route-productId=@Model.Id>
+            <img src=@Model.Image.Path alt=@Model.Image.Alt asp-append-version="true" />
+        </a>
+    </div>
+</div>
+    <div class="col-lg-6">
+        <div class="inner-text">
+            <h4>@Model.Name</h4>
+            <p>€@Model.FullPrice.ToString("0.00")</p>
+            <p>@Model.Description</p>
+        </div>
+            <div class="container">
+                <!-- adding button and heading to show the digits -->
+                <!--increment() and decrement() functions on button click-->
+                    <button onclick="increment()">+</button>
+                    <h2 id="counting"></h2>
+                    <button onclick="decrement()">-</button>
+            </div>
+    </div>
+</div>
+</div>
+
