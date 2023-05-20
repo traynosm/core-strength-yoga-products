@@ -4,6 +4,8 @@ using core_strength_yoga_products.Data;
 using Microsoft.Data.Sqlite;
 using System.Data.SQLite;
 using core_strength_yoga_products.Services;
+using core_strength_yoga_products.Services;
+using core_strength_yoga_products.Settings;
 
 namespace core_strength_yoga_products
 {
@@ -12,21 +14,28 @@ namespace core_strength_yoga_products
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            var connectionString = builder.Configuration.GetConnectionString("core_strength_yoga_productsContextConnection") ?? throw new InvalidOperationException("Connection string 'core_strength_yoga_productsContextConnection' not found.");
+
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .Build();
+
+            var connectionString = builder.Configuration.GetConnectionString("core_strength_yoga_productsContextConnection") ?? throw new InvalidOperationException(
+                "Connection string 'core_strength_yoga_productsContextConnection' not found.");
 
             builder.Services.AddDbContext<core_strength_yoga_productsContext>(options =>
                 options
-                    .UseLazyLoadingProxies()
                     .UseSqlite(connectionString));
 
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<core_strength_yoga_productsContext>();
 
-           // var sqlite_conn = CreateConnection(connectionString);
-
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-            builder.Services.AddHttpClient<DepartmentService>();
+            builder.Services.AddHttpClient<ProductCategoryService>();
+            builder.Services.AddHttpClient<ProductTypeService>();
 
+            builder.Services.Configure<ApiSettings>(o =>
+                configuration.GetSection("ApiSettings").Bind(o));
 
             var app = builder.Build();
 
@@ -50,20 +59,6 @@ namespace core_strength_yoga_products
                 pattern: "{controller=Home}/{action=Index}/{id?}");
             app.MapRazorPages();
             app.Run();
-        }
-
-        static SQLiteConnection CreateConnection(string connectionString)
-        {
-            var sqlite_conn = new SQLiteConnection(connectionString);
-            try
-            {
-                sqlite_conn.Open();
-            }
-            catch (Exception ex)
-            {
-
-            }
-            return sqlite_conn;
         }
     }
 }

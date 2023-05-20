@@ -1,4 +1,4 @@
-﻿using core_strength_yoga_products.Models;
+using core_strength_yoga_products.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
