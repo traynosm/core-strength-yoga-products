@@ -1,7 +1,6 @@
-﻿
-namespace core_strength_yoga_products.Models.Dtos
+﻿namespace core_strength_yoga_products.Models
 {
-    public class ProductAttributesDto 
+    public class ProductAttributes
     {
         public int Id { get; set; }
         public int StockLevel { get; set; }
@@ -10,6 +9,6 @@ namespace core_strength_yoga_products.Models.Dtos
         public Enums.Size Size { get; set; }
         public Enums.Gender Gender { get; set; }
 
-       
+
     }
 }

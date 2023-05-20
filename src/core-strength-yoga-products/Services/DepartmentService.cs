@@ -1,28 +1,28 @@
-﻿using static core_strength_yoga_products.Models.Global;
-
-
-using core_strength_yoga_products.Models;
-using core_strength_yoga_products.Models.Dtos;
+﻿using core_strength_yoga_products.Models;
+using core_strength_yoga_products.Settings;
+using Microsoft.Extensions.Options;
 
 namespace core_strength_yoga_products.Services;
 
 public class DepartmentService : IDepartmentService
 {
-    
+    private readonly IOptions<ApiSettings> _settings;
     private readonly HttpClient _httpClient;
     
-
-    public DepartmentService(HttpClient httpClient)
+    public DepartmentService(HttpClient httpClient, IOptions<ApiSettings> settings)
     {
         _httpClient = httpClient;
-        _httpClient.BaseAddress = new Uri(baseURI);
-            
+        _settings = settings;
+
+        _httpClient.BaseAddress = new Uri(_settings.Value.BaseUrl);         
     }
 
-    public async Task<IEnumerable<ProductCategoryDto>> GetDepartments()
+    public async Task<IEnumerable<ProductCategory>> GetDepartments()
     {
+        var response =  await _httpClient.GetFromJsonAsync<IEnumerable<ProductCategory>>(
+            "/Products/ByType") ?? throw new Exception();
 
-        return await _httpClient.GetFromJsonAsync<IEnumerable<ProductCategoryDto>>("/Products/ByType");
+        return response;
     }
 
 }

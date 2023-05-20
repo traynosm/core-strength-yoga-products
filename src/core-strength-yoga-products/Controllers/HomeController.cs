@@ -1,8 +1,7 @@
 ﻿using core_strength_yoga_products.Models;
+using core_strength_yoga_products.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using core_strength_yoga_products.Models.Dtos;
-using core_strength_yoga_products.Services;
 
 namespace core_strength_yoga_products.Controllers
 {
@@ -21,13 +20,13 @@ namespace core_strength_yoga_products.Controllers
 
         public async Task<IActionResult> Index()
         {
-            HomeDto homeDto = new HomeDto();
+            var home = new Home();
             var categories = _productCategoryService.GetCategories().Result;
             var types = _prodcuctTypeService.GetTypes().Result;
 
-            homeDto.productCategories = categories;
-            homeDto.productTypes = types;
-            return View(homeDto);
+            home.productCategories = categories;
+            home.productTypes = types;
+            return View(home);
         }
 
         public IActionResult Privacy()

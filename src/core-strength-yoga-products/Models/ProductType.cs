@@ -1,13 +1,12 @@
-﻿
-namespace core_strength_yoga_products.Models.Dtos
+﻿namespace core_strength_yoga_products.Models
 {
-    public class ProductTypeDto
+    public class ProductType
     {
         public int Id { get; set; }
         public string ProductTypeName { get; set; }
         public string Description { get; set; }
-        public ImageDto Image { get; set; }
+        public Image Image { get; set; }
 
-       
+
     }
 }
