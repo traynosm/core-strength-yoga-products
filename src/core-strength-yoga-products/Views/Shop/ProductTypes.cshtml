@@ -1,0 +1,24 @@
+﻿@model IEnumerable<core_strength_yoga_products.Models.ProductType>
+
+
+<div class="banner-section spad">
+
+    <div class="container-fluid">
+        <div class="row">
+            @foreach (var productType in Model)
+            {
+                <div class="col-lg-6">
+                    <div class="single-banner">
+                        <a asp-area="" asp-controller="Shop" asp-action="Gallery"
+                       asp-route-productTypeId=@productType.Id>
+                            <img src=@productType.Image.Path alt=@productType.Image.Alt asp-append-version="true" />
+                            <div class="inner-text">
+                                <h4>@productType.ProductTypeName</h4>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
