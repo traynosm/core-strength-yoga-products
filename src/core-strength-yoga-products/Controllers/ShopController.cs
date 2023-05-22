@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using core_strength_yoga_products.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Net.Http;
+using core_strength_yoga_products.Models;
+using Newtonsoft.Json;
 
 namespace core_strength_yoga_products.Controllers
 {
@@ -42,6 +44,9 @@ namespace core_strength_yoga_products.Controllers
         }
         public async Task<IActionResult> Product(int productId)
         {
+            var sessionCart = HttpContext.Session.GetString("cart");
+            var cart = JsonConvert.DeserializeObject<List<BasketItem>>(sessionCart!);
+
             var product = await _productService.GetProduct(productId);
             return View(product);
         }

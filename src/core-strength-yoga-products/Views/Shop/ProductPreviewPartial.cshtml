@@ -1,10 +1,10 @@
 ﻿@model core_strength_yoga_products.Models.Product
 
 <div class="col-lg-6">
-    <div class="single-banner">
+    <div class="single-banner m-5" >
         <a asp-area="" asp-controller="Shop" asp-action="Product"
            asp-route-productId=@Model.Id>
-            <img src=@Model.Image.Path alt=@Model.Image.Alt asp-append-version="true" />
+            <img src=@Model.Image.Path alt=@Model.Image.Alt asp-append-version="true" class="preview-img" />
             <div class="inner-text">
                 <h4>@Model.Name <span>€@Model.FullPrice.ToString("0.00")</span></h4>
                 

@@ -1,5 +1,9 @@
 ﻿@model core_strength_yoga_products.Models.Product
-<div class="container-fluid">
+@{
+    var coloursAvailable = string.Join("; ",Model.ProductAttributes.Select(p => p.Colour.ToString()).ToArray().Distinct());
+    var sizesAvailable = string.Join("; ", Model.ProductAttributes.Select(p => p.Size.ToString()).ToArray().Distinct());
+}
+<div class="container-fluid, p-5">
     <div class="row">
         <div class="col-lg-6">
              <div class="single-banner">
@@ -14,14 +18,19 @@
             <h4>@Model.Name</h4>
             <p>€@Model.FullPrice.ToString("0.00")</p>
             <p>@Model.Description</p>
+            <p>Colours Available: @coloursAvailable</p>
+            <p>Sizes Available: @sizesAvailable</p>
         </div>
-            <div class="container">
+        <div>
+            @await Html.PartialAsync("ProductPreviewFormPartial.cshtml", Model)
+        </div>
+@*            <div class="container">
                 <!-- adding button and heading to show the digits -->
                 <!--increment() and decrement() functions on button click-->
                     <button onclick="increment()">+</button>
                     <h2 id="counting"></h2>
                     <button onclick="decrement()">-</button>
-            </div>
+            </div>*@
     </div>
 </div>
 </div>

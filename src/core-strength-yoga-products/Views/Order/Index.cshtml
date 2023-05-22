@@ -1,0 +1,40 @@
+﻿@model core_strength_yoga_products.Models.Order;
+
+<p>@Model.DateOfSale</p>
+
+    <table class="table">
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>
+                    <a href="/Shop/Product?ProductId=@item.ProductId">@item.Product.Name</a>
+                </td>
+                <td>
+                    <a href="/Shop/Product?ProductId=@item.ProductId"><img src="@item.Product.Image.Path" class="basket-img" /></a>
+                </td>
+                <td>
+                    Quantity: @item.Quantity
+                </td>
+                <td>
+                    Item Total: €@item.TotalCost.ToString("0.00")
+                </td>
+                <td>
+                    Colour: @item.Colour
+                </td>
+                <td>
+                    Size: @item.Size
+                </td>
+                @* <td>
+            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>*@
+            </tr>
+        }
+    </tbody>
+    </table>
+
+<h5>Order Total: €@Model.OrderTotal.ToString("0.00")</h5>
+<a href="/Order/Payment"<input type="submit" class="primary-btn checkout-btn"/>Go To Payment</a>
+<form asp-controller="order" asp-action="post"></form>
