@@ -34,7 +34,15 @@ namespace core_strength_yoga_products
             builder.Services.AddHttpClient<IProductCategoryService, ProductCategoryService>();
             builder.Services.AddHttpClient<IProductTypeService, ProductTypeService>();
             builder.Services.AddHttpClient<IProductService, ProductService>();
+            builder.Services.AddHttpClient<IBasketService, BasketService>();
 
+
+            builder.Services.AddDistributedMemoryCache();
+
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromHours(1);
+            });
 
             builder.Services.Configure<ApiSettings>(o =>
                 configuration.GetSection("ApiSettings").Bind(o));
@@ -55,6 +63,8 @@ namespace core_strength_yoga_products
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.MapControllerRoute(
                 name: "default",

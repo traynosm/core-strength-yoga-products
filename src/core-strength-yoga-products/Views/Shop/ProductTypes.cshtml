@@ -2,16 +2,16 @@
 
 
 <div class="banner-section spad">
-
+    <a href="/Shop/Index"<p>Back To Categories</p></a>
     <div class="container-fluid">
         <div class="row">
             @foreach (var productType in Model)
             {
                 <div class="col-lg-6">
-                    <div class="single-banner">
+                    <div class="single-banner m-5">
                         <a asp-area="" asp-controller="Shop" asp-action="Gallery"
                        asp-route-productTypeId=@productType.Id>
-                            <img src=@productType.Image.Path alt=@productType.Image.Alt asp-append-version="true" />
+                            <img src=@productType.Image.Path alt=@productType.Image.Alt asp-append-version="true" class="preview-img" />
                             <div class="inner-text">
                                 <h4>@productType.ProductTypeName</h4>
                             </div>

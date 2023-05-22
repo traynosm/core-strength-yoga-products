@@ -8,7 +8,7 @@
         public DateTime? DateOfSale { get; set; }
         public decimal OrderTotal { get; set; }
         public bool IsPaid { get; set; }
-        public int ShippingAddressId { get; set; }
+        public int CustomerDetailId { get; set; }
 
         public Order() { }
 

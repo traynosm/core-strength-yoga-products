@@ -1,6 +1,7 @@
 ﻿using core_strength_yoga_products.Models;
 using core_strength_yoga_products.Services;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Diagnostics;
 
 namespace core_strength_yoga_products.Controllers
@@ -20,6 +21,15 @@ namespace core_strength_yoga_products.Controllers
 
         public async Task<IActionResult> Index()
         {
+            HttpContext.Session.Set("setSession", new byte[] { 1 });
+            var cart = JsonConvert.SerializeObject(new List<BasketItem>());
+            //{
+            //    new BasketItem
+            //    {
+            //        ProductId = 1,
+            //    }
+            //});
+            HttpContext.Session.SetString("cart", cart);
             var home = new Home();
             var categories = _productCategoryService.GetCategories().Result;
             var types = _prodcuctTypeService.GetTypes().Result;
