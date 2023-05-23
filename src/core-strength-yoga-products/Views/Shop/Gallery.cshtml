@@ -1,7 +1,10 @@
 ﻿@model IEnumerable<core_strength_yoga_products.Models.Product>
+@{
+    var productCategoryId = ViewData["productCategoryId"];
+}
 
 <div class="banner-section spad">
-    <a href="/Shop/ProductTypes"<input type="submit" class="primary-btn checkout-btn" />Back To Product Type</a></a>
+    <a href="/Shop/ProductTypes?productCategoryId=@productCategoryId"<input type="submit" class="primary-btn checkout-btn" />Back To Product Type</a></a>
     <div class="container-fluid">
         <div class="row">
             @foreach(var product in Model)
