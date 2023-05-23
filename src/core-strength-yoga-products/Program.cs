@@ -4,7 +4,7 @@ using core_strength_yoga_products.Data;
 using Microsoft.Data.Sqlite;
 using System.Data.SQLite;
 using core_strength_yoga_products.Services;
-using core_strength_yoga_products.Services;
+using core_strength_yoga_products.Interfaces;
 using core_strength_yoga_products.Settings;
 
 namespace core_strength_yoga_products
@@ -35,6 +35,7 @@ namespace core_strength_yoga_products
             builder.Services.AddHttpClient<IProductTypeService, ProductTypeService>();
             builder.Services.AddHttpClient<IProductService, ProductService>();
             builder.Services.AddHttpClient<IBasketService, BasketService>();
+            builder.Services.AddHttpClient<ILoginService, LoginService>();
             builder.Services.AddHttpClient<ICustomerService, CustomerService>();
             builder.Services.AddHttpClient<IOrderService, OrderService>();
 
