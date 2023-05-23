@@ -20,7 +20,7 @@
         <link rel="stylesheet" href="~/css/slicknav.min.css" type="text/css">
         <link rel="stylesheet" href="~/css/style.css" type="text/css">
 
-@* <ul class="navbar-nav"> *@
+@*<ul class="navbar-nav">*@
 @if (SignInManager.IsSignedIn(User))
 {
     <div>
@@ -35,8 +35,8 @@
 }
 else
 {
-        <a href="Identity/Account/Register" class="login-panel"><i class="fa fa-user"></i>Register</a>
-        <a href="Identity/Account/Login" class="login-panel"><i class="fa fa-user"></i>Login</a>
+        <a href="/Identity/Account/Register" class="login-panel"><i class="fa fa-user"></i>Register</a>
+        <a href="/Identity/Account/Login" class="login-panel"><i class="fa fa-user"></i>Login</a>
                   <div class="lan-selector">
                       <select class="language_drop" name="countries" id="countries" style="width:300px">
                           <option value='yt' data-image="../images/flag-1.jpg" data-imagecss="flag yt"
@@ -51,11 +51,11 @@ else
                       <a href="#"><i class="ti-linkedin"></i></a>
                       <a href="#"><i class="ti-pinterest"></i></a>
                   </div>
-    @* <li class="nav-item"> *@
-    @*     <a class="nav-link text-dark" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a> *@
-    @* </li> *@
-    @* <li class="nav-item"> *@
-    @*     <a class="nav-link text-dark" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a> *@
-    @* </li> *@
+@*     <li class="nav-item"> 
+         <a class="nav-link text-dark" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
+    </li>
+    <li class="nav-item">
+         <a class="nav-link text-dark" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+    </li> *@
 }
-@* </ul> *@
+@*</ul> *@

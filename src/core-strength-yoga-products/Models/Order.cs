@@ -5,10 +5,10 @@
         public int Id { get; set; }
         public virtual IEnumerable<BasketItem> Items { get; set; }
         public int CustomerId { get; set; }
+        public Customer Customer { get; set; }
         public DateTime? DateOfSale { get; set; }
         public decimal OrderTotal { get; set; }
         public bool IsPaid { get; set; }
-        public int CustomerDetailId { get; set; }
 
         public Order() { }
 

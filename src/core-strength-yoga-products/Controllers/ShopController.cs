@@ -51,22 +51,10 @@ namespace core_strength_yoga_products.Controllers
             return View(product);
         }
 
-
         public async Task<IActionResult> Description()
         {
             var products = await _productService.GetProducts();
             return View(products);
         }
-
-        //    public IActionResult Gallery(int productCategoryId)
-        //    {
-        //        return View();
-        //    }
-        //    var products = _dbContext.Products.Where(
-        //        p => p.ProductCategoryId == productCategoryId)
-        //        .Include(p => p.Image);
-
-        //        return View(products);
-        //}
     }
 }

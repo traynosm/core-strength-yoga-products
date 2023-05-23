@@ -1,9 +1,10 @@
 ﻿using core_strength_yoga_products.Data;
 using core_strength_yoga_products.Models;
 using core_strength_yoga_products.Services;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Security.Principal;
 
 namespace core_strength_yoga_products.Controllers
 {
@@ -16,10 +17,14 @@ namespace core_strength_yoga_products.Controllers
         private readonly IProductTypeService _productTypeService;
         private readonly IProductService _productService;
         private readonly IBasketService _basketService;
+        private readonly ICustomerService _customerService;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly IOrderService _orderService;
 
         public OrderController(ILogger<OrderController> logger, core_strength_yoga_productsContext dbContext, 
-            IHttpClientFactory clientFactory, IProductCategoryService productCategoryService, 
-            IProductTypeService productTypeService, IProductService productService, IBasketService basketService)
+            IHttpClientFactory clientFactory, IProductCategoryService productCategoryService,
+            IProductTypeService productTypeService, IProductService productService, IBasketService basketService,
+            ICustomerService customerService, UserManager<IdentityUser> userManager, IOrderService orderService)
         {
             _logger = logger;
             _dbContext = dbContext;
@@ -28,102 +33,78 @@ namespace core_strength_yoga_products.Controllers
             _productTypeService = productTypeService;
             _productService = productService;
             _basketService = basketService;
+            _customerService = customerService;
+            _userManager = userManager;
+            _orderService = orderService;
         }
-        // GET: OrderController
+
+
         public async Task<ActionResult> Index()
         {
             var sessionCart = HttpContext.Session.GetString("cart");
             var cart = JsonConvert.DeserializeObject<List<BasketItem>>(sessionCart!);
 
+            var user = HttpContext.User.Identity;
+            if (user == null || string.IsNullOrEmpty(user.Name))
+            {
+                return Redirect("/Identity/Account/Login");
+            }
+
+            var order = await BuildOrderFromCart(cart!, user);
+
+            return View(order);
+        }
+
+        public async Task<ActionResult> Payment()
+        {
+            var sessionCart = HttpContext.Session.GetString("cart");
+            var cart = JsonConvert.DeserializeObject<List<BasketItem>>(sessionCart!);
+
+            var user = HttpContext.User.Identity;
+            if (user == null || string.IsNullOrEmpty(user.Name))
+            {
+                return Redirect("/Identity/Account/Login");
+            }
+
+            var order = await BuildOrderFromCart(cart, user);
+
+            //post to api
+            
+            var savedOrder = await _orderService.AddOrder(order);
+
+            return RedirectToAction("Index", "Payment", new { Order = savedOrder});
+        }
+
+        private async Task<Order> BuildOrderFromCart(IEnumerable<BasketItem> cart, IIdentity user)
+        {
             var productsInBasket = new List<Product>();
             foreach (var basketItem in cart)
             {
-                var product = await _productService.GetProduct(basketItem.ProductId);
-                var productAttribute = product.ProductAttributes.FirstOrDefault(p => p.Id == basketItem.ProductAttributeId);
+                var product = await _productService.GetProduct(basketItem!.ProductId) ?? 
+                    throw new NullReferenceException();
+                var productAttribute = product.ProductAttributes.FirstOrDefault(p => p.Id == basketItem.ProductAttributeId) ?? 
+                    throw new NullReferenceException();
+
                 productsInBasket.Add(product);
                 basketItem.Product = product;
                 basketItem.Colour = productAttribute.Colour;
                 basketItem.Size = productAttribute.Size;
             }
 
+            var customer = await _customerService.GetCustomerByUsername(user.Name!);
+
             var orderTotal = await _basketService.CalculateTotalBasketCost(cart);
-            var order = new Models.Order()
+            var order = new Order()
             {
                 Items = cart,
                 DateOfSale = DateTime.Now,
                 OrderTotal = orderTotal,
+                Customer = customer,
+                CustomerId = customer.Id,
             };
 
-            return View(order);
+            return order;
         }
 
-        // GET: OrderController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: OrderController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: OrderController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: OrderController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: OrderController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: OrderController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: OrderController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }

@@ -12,7 +12,8 @@ namespace core_strength_yoga_products.Controllers
         private readonly IProductCategoryService _productCategoryService;
         private readonly IProductTypeService _prodcuctTypeService;
 
-        public HomeController(ILogger<HomeController> logger, IProductCategoryService productCategoryService, IProductTypeService productTypeService)
+        public HomeController(ILogger<HomeController> logger, IProductCategoryService productCategoryService, 
+            IProductTypeService productTypeService)
         {
             _logger = logger;
             _productCategoryService = productCategoryService;
