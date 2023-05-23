@@ -40,6 +40,7 @@ namespace core_strength_yoga_products.Controllers
         public async Task<IActionResult> Gallery(int productTypeId)
         {
             var products = await _productService.GetProductsByTypeId(productTypeId);
+            ViewData["productCategoryId"] = products.Select(p => p.ProductCategory).First().Id;
             return View(products);
         }
         public async Task<IActionResult> Product(int productId)
