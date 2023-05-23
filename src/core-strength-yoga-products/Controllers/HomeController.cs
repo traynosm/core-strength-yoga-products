@@ -31,6 +31,7 @@ namespace core_strength_yoga_products.Controllers
             //    }
             //});
             HttpContext.Session.SetString("cart", cart);
+            HttpContext.Session.SetString("cartTotal", "€0.00");
             var home = new Home();
             var categories = _productCategoryService.GetCategories().Result;
             var types = _prodcuctTypeService.GetTypes().Result;

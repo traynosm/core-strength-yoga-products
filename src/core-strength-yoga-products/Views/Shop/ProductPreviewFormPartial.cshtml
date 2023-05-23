@@ -1,4 +1,7 @@
-﻿@model core_strength_yoga_products.Models.Product;
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager;
+
+@model core_strength_yoga_products.Models.Product;
 
 
 <form asp-controller="Basket" asp-action="AddOrRemove" method="post">
@@ -15,23 +18,16 @@
         <label for="@nameof(BasketItem.Quantity)">Qty</label>
         <input type="number" id="@nameof(BasketItem.Quantity)" name="@nameof(BasketItem.Quantity)" min="1" max="5" value="1"/>
     </p>
-    <input type="submit" value="Add To Cart" class="primary-btn checkout-btn" />
-    @*    <label for="">Available Colours/Sizes/Gender</label>
 
-        <option value="volvo">Volvo</option>
-        <option value="saab">Saab</option>
-        <option value="fiat">Fiat</option>
-        <option value="audi">Audi</option>
-    *@
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <input type="submit" value="Add To Cart" class="primary-btn checkout-btn" />
+    }
+    else
+    {
+        <p>Please Login to Add this Product to Your Cart!</p>
+        <a href="/Identity/Account/Login" class="primary-btn checkout-btn">Go To Login</a>
+    }
 
 </form>
-@*<a asp-area="" asp-controller="Shop" asp-action="Product"
-   asp-route-productId=@Model.Id>
-    <img src=@Model.Image.Path alt=@Model.Image.Alt asp-append-version="true" />
-    <div class="inner-text">
-        <h4>@Model.Name <span>€@Model.FullPrice.ToString("0.00")</span></h4>
-
-    </div>
-</a>
-*@
 

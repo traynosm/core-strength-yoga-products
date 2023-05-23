@@ -38,13 +38,13 @@ namespace core_strength_yoga_products
             builder.Services.AddHttpClient<ICustomerService, CustomerService>();
             builder.Services.AddHttpClient<IOrderService, OrderService>();
 
-
-
             builder.Services.AddDistributedMemoryCache();
 
             builder.Services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromHours(1);
+                options.Cookie.Name = "CoreStrengthYogaProducts";
+                options.Cookie.IsEssential = true;
             });
 
             builder.Services.Configure<ApiSettings>(o =>
