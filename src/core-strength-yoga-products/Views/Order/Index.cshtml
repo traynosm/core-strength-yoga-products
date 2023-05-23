@@ -1,6 +1,6 @@
 ﻿@model core_strength_yoga_products.Models.Order;
 <div class="container-fluid p-5">
-
+    <a href="/Basket" <input type="submit" class="primary-btn checkout-btn mb-2" />Back To Basket</a>
     @*Order Detail Table*@
     <h5 class="mb-2">Order Details</h5>
     <table class="table mb-3">
@@ -106,7 +106,7 @@
 </table>
 
 <h5 class="mb-3">Order Total: €@Model.OrderTotal.ToString("0.00")</h5>
-<a href="/Order/Payment">Proceed To Payment</a>
+    <a href="/Order/Payment" class="primary-btn checkout-btn mb-2">Proceed To Payment</a>
 
 @*@using (Html.BeginForm("Payment","Order", FormMethod.Post))
 {
