@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -122,7 +125,7 @@
                                 </div>
                             </div>
                         </li>*@
-                            <li class="cart-price"><a href="/Basket" class="primary-btn checkout-btn">Go To Basket</a></li>
+                            <li class="cart-price"><a href="/Basket" class="primary-btn checkout-btn" id="cart-btn"></a></li>
                     </ul>
                 </div>
             </div>
@@ -276,6 +279,10 @@ Copyright &copy;2021 All rights reserved | This template is made with <i class="
         }, 2000);
     }
 </script>
+
+    <script type="text/javascript">
+        document.getElementById('cart-btn').innerHTML = '@HttpContextAccessor.HttpContext.Session.GetString("cartTotal")';
+    </script>
 
 @await RenderSectionAsync("Scripts", required: false)
 </body>

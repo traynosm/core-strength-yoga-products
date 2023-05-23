@@ -52,6 +52,8 @@ namespace core_strength_yoga_products.Controllers
 
             decimal totalBasketCost = await _basketService.CalculateTotalBasketCost(cart);
 
+            HttpContext.Session.SetString("cartTotal", $"€{totalBasketCost.ToString("0.00")}");
+
             return View((cart, totalBasketCost));
         }
 
@@ -89,6 +91,7 @@ namespace core_strength_yoga_products.Controllers
                 decimal totalBasketCost = await _basketService.CalculateTotalBasketCost(cart);
 
                 HttpContext.Session.SetString("cart", JsonConvert.SerializeObject(cart));
+                HttpContext.Session.SetString("cartTotal", $"€{totalBasketCost.ToString("0.00")}");
 
                 return RedirectToAction("Product", "Shop", new { ProductId = productId });
             }
