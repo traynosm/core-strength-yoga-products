@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using Microsoft.Identity.Client;
 using Newtonsoft.Json;
+using NuGet.Packaging.Signing;
 
 namespace core_strength_yoga_products.Controllers
 {
@@ -20,8 +21,8 @@ namespace core_strength_yoga_products.Controllers
         private readonly IBasketService _basketService;
 
 
-        public BasketController(ILogger<BasketController> logger, core_strength_yoga_productsContext dbContext, 
-            IHttpClientFactory clientFactory, IProductCategoryService productCategoryService, 
+        public BasketController(ILogger<BasketController> logger, core_strength_yoga_productsContext dbContext,
+            IHttpClientFactory clientFactory, IProductCategoryService productCategoryService,
             IProductTypeService productTypeService, IProductService productService, IBasketService basketService)
         {
             _logger = logger;
@@ -36,10 +37,10 @@ namespace core_strength_yoga_products.Controllers
         public async Task<ActionResult> Index()
         {
             var sessionCart = HttpContext.Session.GetString("cart");
-            var cart = JsonConvert.DeserializeObject <IEnumerable<BasketItem>>(sessionCart!);
+            var cart = JsonConvert.DeserializeObject<IEnumerable<BasketItem>>(sessionCart!);
 
             var productsInBasket = new List<Product>();
-            foreach(var basketItem in cart)
+            foreach (var basketItem in cart)
             {
                 var product = await _productService.GetProduct(basketItem.ProductId);
                 var productAttribute = product.ProductAttributes.FirstOrDefault(p => p.Id == basketItem.ProductAttributeId);
@@ -64,7 +65,7 @@ namespace core_strength_yoga_products.Controllers
                 var productId = int.Parse(collection["ProductId"].ToString());
                 var productAttributeId = int.Parse(collection["ProductAttributeId"].ToString());
                 var quantity = int.Parse(collection["Quantity"].ToString());
-                
+
                 var sessionCart = HttpContext.Session.GetString("cart");
                 var cart = JsonConvert.DeserializeObject<List<BasketItem>>(sessionCart!);
 
@@ -72,41 +73,65 @@ namespace core_strength_yoga_products.Controllers
                     .Where(c => c.ProductId == productId && c.ProductAttributeId == productAttributeId)
                     .FirstOrDefault();
 
-                BasketItem basketItem = new BasketItem();
-                BasketItem costedItem = new BasketItem();
+                var costedItem = await GetCostedItem(existingBasketItem, productId, productAttributeId, quantity);
 
                 if (existingBasketItem == null)
                 {
-                    basketItem.ProductId = productId;
-                    basketItem.ProductAttributeId = productAttributeId;
-                    basketItem.Quantity = quantity;
-
-                    costedItem = await _basketService.CalculateItemTotal(basketItem);
                     cart!.Add(costedItem!);
                 }
                 else
                 {
-                    basketItem = existingBasketItem;
-                    basketItem.Quantity = quantity;
-
-                    costedItem = await _basketService.CalculateItemTotal(basketItem);
-
                     cart!
-                    .Where(c => c.ProductId == productId && c.ProductAttributeId == productAttributeId)
-                    .FirstOrDefault().TotalCost = costedItem.TotalCost;
+                        .Where(c => c.ProductId == productId && c.ProductAttributeId == productAttributeId)
+                        .FirstOrDefault().TotalCost = costedItem.TotalCost;
                 }
-
 
                 decimal totalBasketCost = await _basketService.CalculateTotalBasketCost(cart);
 
                 HttpContext.Session.SetString("cart", JsonConvert.SerializeObject(cart));
 
-                return RedirectToAction("Product", "Shop", new {ProductId = productId});
+                return RedirectToAction("Product", "Shop", new { ProductId = productId });
             }
             catch
             {
                 return View();
             }
+        }
+
+        public async Task<ActionResult> DeleteFromBasket(int productId, int productAttributeId)
+        {
+            var sessionCart = HttpContext.Session.GetString("cart");
+            var cart = JsonConvert.DeserializeObject<List<BasketItem>>(sessionCart!);
+
+            var existingBasketItem = cart!
+                .Where(c => c.ProductId == productId && c.ProductAttributeId == productAttributeId)
+                .FirstOrDefault();
+
+            cart = cart!.Where(c => c.ProductId != productId && c.ProductAttributeId != productAttributeId).ToList();         
+
+            HttpContext.Session.SetString("cart", JsonConvert.SerializeObject(cart));
+
+            return RedirectToAction("Index");
+        }
+    
+
+        private async Task<BasketItem> GetCostedItem(BasketItem? existingBasketItem, int productId, int productAttributeId, int quantity = 0)
+        {
+            BasketItem basketItem = new BasketItem();
+
+            if (existingBasketItem == null)
+            {
+                basketItem.ProductId = productId;
+                basketItem.ProductAttributeId = productAttributeId;
+                basketItem.Quantity = quantity;          
+            }
+            else
+            {
+                basketItem = existingBasketItem;
+                basketItem.Quantity = quantity;
+            }
+
+            return await _basketService.CalculateItemTotal(basketItem);
         }
     }
 }
