@@ -35,6 +35,9 @@ namespace core_strength_yoga_products
             builder.Services.AddHttpClient<IProductTypeService, ProductTypeService>();
             builder.Services.AddHttpClient<IProductService, ProductService>();
             builder.Services.AddHttpClient<IBasketService, BasketService>();
+            builder.Services.AddHttpClient<ICustomerService, CustomerService>();
+            builder.Services.AddHttpClient<IOrderService, OrderService>();
+
 
 
             builder.Services.AddDistributedMemoryCache();

@@ -1,8 +1,9 @@
 ﻿@model core_strength_yoga_products.Models.Order;
+<div class="container-fluid p-5">
 
-<p>@Model.DateOfSale</p>
-
-    <table class="table">
+    @*Order Detail Table*@
+    <h5 class="mb-2">Order Details</h5>
+    <table class="table mb-3">
     <tbody>
         @foreach (var item in Model.Items)
         {
@@ -25,16 +26,98 @@
                 <td>
                     Size: @item.Size
                 </td>
-                @* <td>
-            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>*@
             </tr>
         }
     </tbody>
     </table>
 
-<h5>Order Total: €@Model.OrderTotal.ToString("0.00")</h5>
-<a href="/Order/Payment"<input type="submit" class="primary-btn checkout-btn"/>Go To Payment</a>
-<form asp-controller="order" asp-action="post"></form>
+
+    @*Customer Detail Table*@
+    <h5 class="mb-2">Customer Details</h5>
+    <table class="table mb-5">
+    <tbody>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(m => m.Customer.Id)
+            </th>
+            <th>
+                Full Name
+            </th>
+            <th>
+                @Html.DisplayNameFor(m => m.Customer.CustomerDetail.Email)                
+            </th>
+        </tr>    
+            <tr>
+                <td>
+                    @Model.Customer.Id
+                </td> 
+                <td>
+                    @Model.Customer.CustomerDetail.FirstName @Model.Customer.CustomerDetail.Surname
+                </td>
+                <td>
+                    @Model.Customer.CustomerDetail.Email
+                </td>
+            </tr>
+        
+    </tbody>
+</table>
+
+
+@*Shipping address Table*@
+    <h5 class="mb-2">Shipping Address</h5>
+    <table class="table mb-5">
+    <tbody>
+        <tr>
+            <th>
+                Street Address
+            </th>
+            <th>
+                @Html.DisplayNameFor(m => m.Customer.CustomerDetail.Addresses.First().City)
+            </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Customer.CustomerDetail.Addresses.First().County)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Customer.CustomerDetail.Addresses.First().Country)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Customer.CustomerDetail.Addresses.First().PostCode)
+                </th>
+        </tr>
+        <tr>
+            <td>
+                    @Html.DisplayFor(m => m.Customer.CustomerDetail.Addresses.First().StreetAddr)
+                    @Html.DisplayFor(m => m.Customer.CustomerDetail.Addresses.First().AddrLine2)
+            </td>
+            <td>
+                    @Html.DisplayFor(m => m.Customer.CustomerDetail.Addresses.First().City)
+            </td>
+                <td>
+                    @Html.DisplayFor(m => m.Customer.CustomerDetail.Addresses.First().County)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => m.Customer.CustomerDetail.Addresses.First().Country)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => m.Customer.CustomerDetail.Addresses.First().PostCode)
+                </td>
+        </tr>
+    </tbody>
+</table>
+
+<h5 class="mb-3">Order Total: €@Model.OrderTotal.ToString("0.00")</h5>
+<a href="/Order/Payment">Proceed To Payment</a>
+
+@*@using (Html.BeginForm("Payment","Order", FormMethod.Post))
+{
+    @Html.HiddenFor(m => m.OrderTotal);
+        @Html.HiddenFor(m => m.Customer.Id);
+        @for(var i = 0; i < @Model.Items.Count(); i++)
+        {
+            <input type="hidden" asp-for=@Model.Items.ToArray()[i].ProductId />
+            <input type="hidden" asp-for=@Model.Items.ToArray()[i].ProductAttributeId />
+            <input type="hidden" asp-for=@Model.Items.ToArray()[i].Quantity />
+        }
+    <input type="submit" id="submit" class="primary-btn checkout-btn" value="Proceed To Payment" />
+}*@
+</div>
