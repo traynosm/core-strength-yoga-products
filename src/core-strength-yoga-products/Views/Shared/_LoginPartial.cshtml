@@ -3,25 +3,56 @@
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 
-<ul class="navbar-nav">
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <!--link rel="stylesheet" href="~/core_strength_yoga_products.styles.css" asp-append-version="true" /-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <!-- Google Font -->
+        <link href="https://fonts.googleapis.com/css?family=Muli:300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+        <!-- Css Styles -->
+        <link rel="stylesheet" href="~/css/bootstrap.min.css" type="text/css">
+        <link rel="stylesheet" href="~/css/font-awesome.min.css" type="text/css">
+        <link rel="stylesheet" href="~/css/themify-icons.css" type="text/css">
+        <link rel="stylesheet" href="~/css/elegant-icons.css" type="text/css">
+        <link rel="stylesheet" href="~/css/owl.carousel.min.css" type="text/css">
+        <link rel="stylesheet" href="~/css/nice-select.css" type="text/css">
+        <link rel="stylesheet" href="~/css/jquery-ui.min.css" type="text/css">
+        <link rel="stylesheet" href="~/css/slicknav.min.css" type="text/css">
+        <link rel="stylesheet" href="~/css/style.css" type="text/css">
+
+@*<ul class="navbar-nav">*@
 @if (SignInManager.IsSignedIn(User))
 {
-    <li class="nav-item">
-        <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
-    </li>
-    <li class="nav-item">
-        <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button id="logout" type="submit" class="nav-link btn btn-link text-dark border-0">Logout</button>
+    <div>
+    <form id="logoutForm" class="login-panel logout-button" asp-area="Identity" asp-page="/Account/Logout" style="margin-top: -9px;" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+            <button id="logout" type="submit" class="btn btn-link text-dark border-0">Logout</button>
         </form>
-    </li>
+            <a id="manage" class="login-panel p-3" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>    
+    </div>
 }
 else
 {
-    <li class="nav-item">
-        <a class="nav-link text-dark" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
+        <a href="/Identity/Account/Register" class="login-panel p-3"><i class="fa fa-user"></i>Register</a>
+        <a href="/Identity/Account/Login" class="login-panel p-3"><i class="fa fa-user"></i>Login</a>
+                  <div class="lan-selector">
+                      <select class="language_drop" name="countries" id="countries" style="width:300px">
+                          <option value='yt' data-image="../images/flag-1.jpg" data-imagecss="flag yt"
+                                  data-title="English">English</option>
+                          <option value='yu' data-image="../images/flag-2.jpg" data-imagecss="flag yu"
+                                  data-title="Bangladesh">German </option>
+                      </select>
+                  </div>
+                  <div class="top-social">
+                      <a href="#"><i class="ti-facebook"></i></a>
+                      <a href="#"><i class="ti-twitter-alt"></i></a>
+                      <a href="#"><i class="ti-linkedin"></i></a>
+                      <a href="#"><i class="ti-pinterest"></i></a>
+                  </div>
+@*     <li class="nav-item"> 
+         <a class="nav-link text-dark" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link text-dark" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
-    </li>
+         <a class="nav-link text-dark" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+    </li> *@
 }
-</ul>
+@*</ul> *@

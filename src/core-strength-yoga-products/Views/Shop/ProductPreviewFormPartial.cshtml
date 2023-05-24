@@ -1,0 +1,33 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager;
+
+@model core_strength_yoga_products.Models.Product;
+
+
+<form asp-controller="Basket" asp-action="AddOrRemove" method="post">
+    <input type="hidden" id="@nameof(BasketItem.ProductId)" name="@nameof(BasketItem.ProductId)" value="@Model.Id" />
+    <label for="@nameof(BasketItem.ProductAttributeId)">Customise</label>
+
+    <select id="@nameof(BasketItem.ProductAttributeId)" name="@nameof(BasketItem.ProductAttributeId)">
+    @foreach(var attr in Model.ProductAttributes)
+    {
+        <option value="@attr.Id">@attr.Colour @attr.Size (@attr.PriceAdjustment)</option>
+    }
+    </select>
+    <p>
+        <label for="@nameof(BasketItem.Quantity)">Qty</label>
+        <input type="number" id="@nameof(BasketItem.Quantity)" name="@nameof(BasketItem.Quantity)" min="1" max="5" value="1"/>
+    </p>
+
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <input type="submit" value="Add To Cart" class="primary-btn checkout-btn" />
+    }
+    else
+    {
+        <p>Please Login to Add this Product to Your Cart!</p>
+        <a href="/Identity/Account/Login" class="primary-btn checkout-btn">Go To Login</a>
+    }
+
+</form>
+
