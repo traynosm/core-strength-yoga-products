@@ -20,14 +20,12 @@
         <link rel="stylesheet" href="~/css/slicknav.min.css" type="text/css">
         <link rel="stylesheet" href="~/css/style.css" type="text/css">
 
-@*<ul class="navbar-nav">*@
-@if (SignInManager.IsSignedIn(User))
+@* <ul class="navbar-nav"> *@
+@if (GlobalData.isSignedIn)
 {
     <div>
-    <form id="logoutForm" class="login-panel logout-button" asp-area="Identity" asp-page="/Account/Logout" style="margin-top: -9px;" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button id="logout" type="submit" class="btn btn-link text-dark border-0">Logout</button>
-        </form>
-            <a id="manage" class="login-panel p-3" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>    
+    <a href="~/Logout" class="login-panel"><i class="fa fa-user"></i>Logout</a>
+            <span>Hello @GlobalData.Username!</span>    
     </div>
 }
 else
