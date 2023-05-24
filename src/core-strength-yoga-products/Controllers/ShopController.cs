@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Net.Http;
 using core_strength_yoga_products.Models;
 using Newtonsoft.Json;
+using core_strength_yoga_products.Models.Enums;
 
 namespace core_strength_yoga_products.Controllers
 {
@@ -61,7 +62,7 @@ namespace core_strength_yoga_products.Controllers
             var sessionCart = HttpContext.Session.GetString("cart");
             var cart = JsonConvert.DeserializeObject<List<BasketItem>>(sessionCart!);
 
-            var product = await _productService.GetProduct(productId);
+            var product = await _productService.GetProduct(productId)!;
             ViewData["productTypeId"] = product.ProductType.Id;
             return View(product);
         }
@@ -78,6 +79,9 @@ namespace core_strength_yoga_products.Controllers
 
             ViewData["productCategoryId"] = categoryId;
             ViewData["ProductTypeId"] = productTypeId;
+            ViewData["genderId"] = genderId;
+            ViewData["sizeId"] = sizeId;
+            ViewData["colourId"] = colourId;
 
             return View("Gallery", products);
         }
@@ -91,12 +95,22 @@ namespace core_strength_yoga_products.Controllers
             var sizeId = int.Parse(form["Size"].ToString());
             var genderId = int.Parse(form["Gender"].ToString());
 
-
-
             var products = await _productService.GetProductByAttribute(categoryId, productTypeId, colourId, sizeId, genderId);
 
             ViewData["productCategoryId"] = categoryId;
             ViewData["ProductTypeId"] = productTypeId;
+            ViewData["genderId"] = genderId;
+            ViewData["sizeId"] = sizeId;
+            ViewData["colourId"] = colourId;
+
+            return View("Gallery", products);
+        }
+
+        public async Task<IActionResult> Search(string query)
+        {
+            var products = await _productService.Search(query);
+
+            ViewData["showFilter"] = false;
 
             return View("Gallery", products);
         }
