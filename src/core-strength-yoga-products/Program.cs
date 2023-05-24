@@ -54,12 +54,17 @@ namespace core_strength_yoga_products
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
-            if (!app.Environment.IsDevelopment())
+            if (app.Environment.IsDevelopment())
             {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseDeveloperExceptionPage();
+                
+            }
+            else
+            {
+                app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
+            app.UseStatusCodePages();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -70,10 +75,15 @@ namespace core_strength_yoga_products
 
             app.UseSession();
 
-            app.MapControllerRoute(
-                name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
-            app.MapRazorPages();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapRazorPages();
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+            });
+
             app.Run();
         }
     }

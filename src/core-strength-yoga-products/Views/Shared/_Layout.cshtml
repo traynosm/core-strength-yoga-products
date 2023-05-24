@@ -68,10 +68,12 @@
                 <div class="col-lg-7 col-md-7">
                     <div class="advanced-search">
                         <button type="button" class="category-btn">All Categories</button>
+                        <form asp-controller="Shop" asp-action="Search" method="post">
                         <div class="input-group">
-                            <input type="text" placeholder="What do you need?"/>
-                            <button type="button"><i class="ti-search"></i></button>
+                            <input type="text" name="query" id="query" placeholder="What do you need?"/>
+                            <button type="submit"><i class="ti-search"></i></button>
                         </div>
+                            </form>
                     </div>
                 </div>
                 <div class="col-lg-3 text-right col-md-3">
@@ -141,13 +143,13 @@
                     <i class="ti-menu"></i>
                     <span>All departments</span>
                     <ul class="depart-hover">
-                        <li class="active"><a href="#">Mats</a></li>
-                        <li><a href="#">Blocks</a></li>
-                        <li><a href="#">Bolsters</a></li>
-                        <li><a href="#">Tops</a></li>
-                        <li><a href="#">Bottoms</a></li>
-                        <li><a href="#">Footwear</a></li>
-                        <li><a href="#">Accessories</a></li>
+                            <li><a asp-area="" asp-controller="Shop" asp-action="FilterProducts" asp-route-ProductTypeId="1">Mats</a></li>
+                            <li><a asp-area="" asp-controller="Shop" asp-action="FilterProducts" asp-route-ProductTypeId="3">Blocks</a></li>
+                            <li><a asp-area="" asp-controller="Shop" asp-action="FilterProducts" asp-route-ProductTypeId="7">Bolsters</a></li>
+                            <li><a asp-area="" asp-controller="Shop" asp-action="FilterProducts" asp-route-ProductTypeId="4">Tops</a></li>
+                            <li><a asp-area="" asp-controller="Shop" asp-action="FilterProducts" asp-route-ProductTypeId="5">Bottoms</a></li>
+                            <li><a asp-area="" asp-controller="Shop" asp-action="FilterProducts" asp-route-ProductTypeId="6">Footwear</a></li>
+                            <li><a asp-area="" asp-controller="Shop" asp-action="FilterProducts" asp-route-ProductTypeId="2">Accessories</a></li>
                     </ul>
                 </div>
             </div>

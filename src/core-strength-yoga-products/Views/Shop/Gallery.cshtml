@@ -4,39 +4,59 @@
 @{
     var productCategoryId = ViewData["productCategoryId"] ?? 1;
     var productTypeId = ViewData["productTypeId"] ?? 1;
+    int.TryParse(ViewData["genderId"]?.ToString(), out int genderId);
+    int.TryParse(ViewData["sizeId"]?.ToString(), out int sizeId);
+    int.TryParse(ViewData["colourId"]?.ToString(), out int colourId);
+
+    var showFilter = (bool?)ViewData["showFilter"] ?? true;
+
     var genders = Enum.GetValues(typeof(Gender)).Cast<Gender>().ToList();
     var sizes = Enum.GetValues(typeof(Size)).Cast<Size>().ToList();
     var colours = Enum.GetValues(typeof(Colour)).Cast<Colour>().ToList();
 }
 
 <div class="banner-section spad">
-    <form asp-controller="Shop" asp-action="FilterProductsFromPost" method="post">
-        <input type="hidden" value="@productCategoryId" id="ProductCategory" name="ProductCategory" />
-        <input type="hidden" value="@productTypeId" id="ProductType" name="ProductType" />
-        <select id="@nameof(Gender)" name="@nameof(Gender)">
-            @foreach (var value in @genders)
-            {
-                var @id = (int)value;
-                <option value="@id">@value.ToString()</option>
-            }
-        </select>
-        <select id="@nameof(Size)" name="@nameof(Size)">
-            @foreach (var value in @sizes)
-            {
-                var @id = (int)value;
-                <option value="@id">@value.ToString()</option>
-            }
-        </select>
-        <select id="@nameof(Colour)" name="@nameof(Colour)">
-            @foreach (var value in @colours)
-            {
-                var @id = (int)value;
-                <option value="@id">@value.ToString()</option>
-            }
-        </select>
-        <input type="submit"/>
-    </form>
+    <div class="row">
+        <div class="col-2">
 
+            @if (showFilter)
+            {
+                <form asp-controller="Shop" asp-action="FilterProductsFromPost" method="post">
+                    <input type="hidden" value="@productCategoryId" id="ProductCategory" name="ProductCategory" />
+                    <input type="hidden" value="@productTypeId" id="ProductType" name="ProductType" />
+                    <section class="m-2">
+                        <div>Gender</div>
+                        @foreach (var value in @genders)
+                        {
+                            var @id = (int)value;
+                            var @isChecked = @id == genderId || @id == 0 ? true : false;
+                            <input type="radio" name="Gender" value="@id" checked="@isChecked"/>@value.ToString()<br />
+                        }
+                    </section>
+                    <section class="m-2">
+                        <div>Size</div>
+                        @foreach (var value in @sizes)
+                        {
+                            var @id = (int)value;
+                            var @isChecked = @id == sizeId || @id == 0 ? true : false;
+                            <input type="radio" name="Size" value="@id" checked="@isChecked" />@value.ToString()<br />
+                        }
+                    </section>
+                    <section class="m-2">
+                        <div>Colour</div>
+                        @foreach (var value in @colours)
+                        {
+                            var @id = (int)value;
+                            var @isChecked = @id == colourId || @id == 0 ? true : false;
+                            <input type="radio" name="Colour" value="@id" checked="@isChecked"/>@value.ToString()
+                            <br />
+                        }
+                    </section>
+        <input type="submit" value="Filter" class="primary-btn checkout-btn"/>
+    </form>
+    }
+        </div>
+        <div class="col-10">
     <a href="/Shop/ProductTypes?productCategoryId=@productCategoryId"<input type="submit" class="primary-btn checkout-btn"/> <i class="fa fa-arrow-left m-2"></i> Back To Product Type</a>
     <div class="container-fluid">
         <div class="row">
@@ -45,6 +65,8 @@
                 @await Html.PartialAsync("ProductPreviewPartial.cshtml", product);
             }
         </div>
+    </div>
+    </div>
     </div>
 </div>
 
