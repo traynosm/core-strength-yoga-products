@@ -30,7 +30,12 @@ namespace core_strength_yoga_products.Services
         {
             return await _httpClient.GetFromJsonAsync<Product>($"/Products/{id}");
         }
-
+        //"FilterOnAttribute/ProductCategory={categoryId}/Colour={colourId}/Size={sizeId}/Gender={genderId}"
+        public async Task<IEnumerable<Product>?> GetProductByAttribute(int categoryId, int productTypeId, int colourId, int sizeId, int genderId)
+        {
+            return await _httpClient.GetFromJsonAsync<IEnumerable<Product>>(
+                $"Products/FilterOnAttribute/ProductCategory={categoryId}/ProductType={productTypeId}/Colour={colourId}/Size={sizeId}/Gender={genderId}");
+        }
 
     }
 }

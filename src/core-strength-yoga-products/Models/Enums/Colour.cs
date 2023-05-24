@@ -2,7 +2,8 @@
 {
     public enum Colour
     {
-        Unknown = 1,
+        Unknown = 0,
+        Cyan = 1,
         Red = 2,
         Green = 3,
         Blue = 4,

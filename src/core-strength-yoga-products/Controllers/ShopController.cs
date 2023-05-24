@@ -30,17 +30,30 @@ namespace core_strength_yoga_products.Controllers
         public async Task<IActionResult> Index()
         {
             var categories = await _productCategoryService.GetCategories();
+            if (categories == null || !categories.Any())
+            {
+                return RedirectToAction("Index");
+            }
             return View(categories);
         }
         public async Task<IActionResult> ProductTypes(int productCategoryId)
         {
             var types = await _productTypeService.GetTypesByCategoryId(productCategoryId);
+            if (types == null || !types.Any())
+            {
+                return RedirectToAction("Index");
+            }
             return View(types);
         }
         public async Task<IActionResult> Gallery(int productTypeId)
         {
             var products = await _productService.GetProductsByTypeId(productTypeId);
+            if (products == null || !products.Any())
+            {
+                return RedirectToAction("Index");
+            }
             ViewData["productCategoryId"] = products.Select(p => p.ProductCategory).First().Id;
+            ViewData["ProductTypeId"] = productTypeId;
             return View(products);
         }
         public async Task<IActionResult> Product(int productId)
@@ -49,6 +62,7 @@ namespace core_strength_yoga_products.Controllers
             var cart = JsonConvert.DeserializeObject<List<BasketItem>>(sessionCart!);
 
             var product = await _productService.GetProduct(productId);
+            ViewData["productTypeId"] = product.ProductType.Id;
             return View(product);
         }
 
@@ -56,6 +70,35 @@ namespace core_strength_yoga_products.Controllers
         {
             var products = await _productService.GetProducts();
             return View(products);
+        }
+
+        public async Task<IActionResult> FilterProducts(int categoryId=0, int productTypeId = 0, int colourId=0, int sizeId=0, int genderId=0)
+        {
+            var products = await _productService.GetProductByAttribute(categoryId, productTypeId, colourId, sizeId, genderId);
+
+            ViewData["productCategoryId"] = categoryId;
+            ViewData["ProductTypeId"] = productTypeId;
+
+            return View("Gallery", products);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> FilterProductsFromPost(IFormCollection form)
+        {
+            var categoryId = int.Parse(form["ProductCategory"].ToString());
+            var productTypeId = int.Parse(form["ProductType"].ToString());
+            var colourId = int.Parse(form["Colour"].ToString());
+            var sizeId = int.Parse(form["Size"].ToString());
+            var genderId = int.Parse(form["Gender"].ToString());
+
+
+
+            var products = await _productService.GetProductByAttribute(categoryId, productTypeId, colourId, sizeId, genderId);
+
+            ViewData["productCategoryId"] = categoryId;
+            ViewData["ProductTypeId"] = productTypeId;
+
+            return View("Gallery", products);
         }
     }
 }
