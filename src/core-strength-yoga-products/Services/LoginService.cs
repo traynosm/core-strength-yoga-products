@@ -18,7 +18,6 @@ namespace core_strength_yoga_products.Services
     public class LoginService : ILoginService
     {
         private readonly HttpClient _httpClient;
-        private readonly HttpContext _httpContext;
         private readonly IOptions<ApiSettings> _options;
         public LoginService(HttpClient httpClient, IOptions<ApiSettings> options)
         {
@@ -51,11 +50,19 @@ namespace core_strength_yoga_products.Services
             {
                 GlobalData.isSignedIn = true;
                 GlobalData.Username = claimsIdentity.Name;
+                GlobalData.JWT = tokenValue;
+            }
+            if (claimsIdentity.NameClaimType != null)
+            {
+                GlobalData.isSignedIn = true;
+                GlobalData.Username = claimsIdentity.Name;
+                GlobalData.JWT = tokenValue;
             }
             
             // Create a new ClaimsPrincipal and assign the ClaimsIdentity
             var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
 
+           var contentDummy =  Dummy();
             
             // _signInManager.UserManager.FindByIdAsync(userModel.Username);
             //User.Claims = claimsPrincipal;
@@ -87,6 +94,7 @@ namespace core_strength_yoga_products.Services
             {
                 GlobalData.isSignedIn = true;
                 GlobalData.Username = claimsIdentity.Name;
+                GlobalData.JWT = tokenValue;
             }
             
             // Create a new ClaimsPrincipal and assign the ClaimsIdentity
@@ -95,6 +103,26 @@ namespace core_strength_yoga_products.Services
             
             // _signInManager.UserManager.FindByIdAsync(userModel.Username);
             //User.Claims = claimsPrincipal;
+            
+            return resultContent;
+        }
+        
+        
+        public async Task<String> Dummy( )
+        {
+            
+            _httpClient.DefaultRequestHeaders
+                .Accept
+                .Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            if (GlobalData.JWT != null)
+            {
+                _httpClient.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", GlobalData.JWT);
+            }
+            
+            var result = await _httpClient.GetAsync("/auth/dummy");
+            string resultContent = await result.Content.ReadAsStringAsync();
             
             return resultContent;
         }
