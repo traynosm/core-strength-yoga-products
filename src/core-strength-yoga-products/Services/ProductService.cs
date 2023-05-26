@@ -1,5 +1,6 @@
 ﻿using core_strength_yoga_products.Models;
 using core_strength_yoga_products.Settings;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
 namespace core_strength_yoga_products.Services
@@ -15,7 +16,6 @@ namespace core_strength_yoga_products.Services
             _settings = settings;
             _httpClient = httpClient;
             _httpClient.BaseAddress = new Uri(_settings.Value.BaseUrl);
-
         }
 
         public async Task<IEnumerable<Product>?> GetProducts()
@@ -30,7 +30,15 @@ namespace core_strength_yoga_products.Services
         {
             return await _httpClient.GetFromJsonAsync<Product>($"/Products/{id}");
         }
-
-
+        public async Task<IEnumerable<Product>?> GetProductByAttribute(int categoryId, int productTypeId, int colourId, int sizeId, int genderId)
+        {
+            return await _httpClient.GetFromJsonAsync<IEnumerable<Product>>(
+                $"Products/FilterOnAttribute/ProductCategory={categoryId}/ProductType={productTypeId}/Colour={colourId}/Size={sizeId}/Gender={genderId}");
+        }
+        [HttpPost]
+        public async Task<IEnumerable<Product>?> Search([Bind]string query)
+        {
+            return await _httpClient.GetFromJsonAsync<IEnumerable<Product>>($"/Products/Search/{query}");
+        }
     }
 }
