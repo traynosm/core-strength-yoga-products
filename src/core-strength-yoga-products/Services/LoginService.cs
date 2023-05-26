@@ -34,7 +34,7 @@ namespace core_strength_yoga_products.Services
             _httpClient.DefaultRequestHeaders
                 .Accept
                 .Add(new MediaTypeWithQualityHeaderValue("application/json"));  
-            var result = await _httpClient.PostAsync("/auth/login", content);
+            var result = await _httpClient.PostAsync("/api/v1/auth/login", content);
             string resultContent = await result.Content.ReadAsStringAsync();
             
             var jsonObject = JObject.Parse(resultContent);
@@ -78,7 +78,7 @@ namespace core_strength_yoga_products.Services
             _httpClient.DefaultRequestHeaders
                 .Accept
                 .Add(new MediaTypeWithQualityHeaderValue("application/json"));  
-            var result = await _httpClient.PostAsync("/auth/register", content);
+            var result = await _httpClient.PostAsync("/api/v1/auth/register", content);
             string resultContent = await result.Content.ReadAsStringAsync();
             
             var jsonObject = JObject.Parse(resultContent);
@@ -121,7 +121,7 @@ namespace core_strength_yoga_products.Services
                     new AuthenticationHeaderValue("Bearer", GlobalData.JWT);
             }
             
-            var result = await _httpClient.GetAsync("/auth/dummy");
+            var result = await _httpClient.GetAsync("/api/v1/auth/dummy");
             string resultContent = await result.Content.ReadAsStringAsync();
             
             return resultContent;

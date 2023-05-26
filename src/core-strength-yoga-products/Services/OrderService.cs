@@ -21,7 +21,7 @@ namespace core_strength_yoga_products.Services
 
         public async Task<Order?> AddOrder(Order order)
         {
-            var response = await _httpClient.PostAsJsonAsync("Order", order);
+            var response = await _httpClient.PostAsJsonAsync("/api/v1/Order", order);
             var content = await response.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<Order>(content);
 
