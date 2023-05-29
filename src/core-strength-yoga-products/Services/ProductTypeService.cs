@@ -20,14 +20,14 @@ public class ProductTypeService : IProductTypeService
     public async Task<IEnumerable<ProductType>> GetTypes()
     {
         var response =  await _httpClient.GetFromJsonAsync<IEnumerable<ProductType>>(
-            "/ProductTypes") ?? throw new Exception();
+            "/api/v1/ProductTypes") ?? throw new Exception();
 
         return response;
     }
     public async Task<IEnumerable<ProductType>> GetTypesByCategoryId(int id)
     {
         var response = await _httpClient.GetFromJsonAsync<IEnumerable<ProductType>>(
-            $"/ProductTypes/ByCategoryId/{id}") ?? throw new Exception();
+            $"/api/v1/ProductTypes/ByCategoryId/{id}") ?? throw new Exception();
 
         return response;
     }

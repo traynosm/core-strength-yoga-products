@@ -20,25 +20,25 @@ namespace core_strength_yoga_products.Services
 
         public async Task<IEnumerable<Product>?> GetProducts()
         {
-            return await _httpClient.GetFromJsonAsync<IEnumerable<Product>>("/Products");
+            return await _httpClient.GetFromJsonAsync<IEnumerable<Product>>("/api/v1/Products");
         }
         public async Task<IEnumerable<Product>?> GetProductsByTypeId(int id)
         {
-            return await _httpClient.GetFromJsonAsync<IEnumerable<Product>>($"/Products/ByType/{id}");
+            return await _httpClient.GetFromJsonAsync<IEnumerable<Product>>($"/api/v1/Products/ByType/{id}");
         }
         public async Task<Product?> GetProduct(int id)
         {
-            return await _httpClient.GetFromJsonAsync<Product>($"/Products/{id}");
+            return await _httpClient.GetFromJsonAsync<Product>($"/api/v1/Products/{id}");
         }
         public async Task<IEnumerable<Product>?> GetProductByAttribute(int categoryId, int productTypeId, int colourId, int sizeId, int genderId)
         {
             return await _httpClient.GetFromJsonAsync<IEnumerable<Product>>(
-                $"Products/FilterOnAttribute/ProductCategory={categoryId}/ProductType={productTypeId}/Colour={colourId}/Size={sizeId}/Gender={genderId}");
+                $"/api/v1/Products/FilterOnAttribute/ProductCategory={categoryId}/ProductType={productTypeId}/Colour={colourId}/Size={sizeId}/Gender={genderId}");
         }
         [HttpPost]
         public async Task<IEnumerable<Product>?> Search([Bind]string query)
         {
-            return await _httpClient.GetFromJsonAsync<IEnumerable<Product>>($"/Products/Search/{query}");
+            return await _httpClient.GetFromJsonAsync<IEnumerable<Product>>($"/api/v1/Products/Search/{query}");
         }
     }
 }
