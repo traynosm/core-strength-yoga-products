@@ -9,4 +9,8 @@ public interface IProductService
     Task<Product?> GetProduct(int id);
     Task<IEnumerable<Product>?> GetProductByAttribute(int categoryId, int productTypeId, int colourId, int sizeId, int genderId);
     Task<IEnumerable<Product>?> Search(string query);
+
+    Task<HttpResponseMessage> AddProduct(Product product);
+    public Task<HttpResponseMessage> RemoveProduct(int id);
+
 }
