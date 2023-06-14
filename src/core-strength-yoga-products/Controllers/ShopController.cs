@@ -33,7 +33,7 @@ namespace core_strength_yoga_products.Controllers
             var categories = await _productCategoryService.GetCategories();
             if (categories == null || !categories.Any())
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("/Home/Index");
             }
             return View(categories);
         }
