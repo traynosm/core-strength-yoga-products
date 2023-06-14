@@ -1,7 +1,9 @@
-﻿using core_strength_yoga_products.Models;
+﻿using System.Text;
+using core_strength_yoga_products.Models;
 using core_strength_yoga_products.Settings;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 
 namespace core_strength_yoga_products.Services
 {
@@ -40,5 +42,27 @@ namespace core_strength_yoga_products.Services
         {
             return await _httpClient.GetFromJsonAsync<IEnumerable<Product>>($"/api/v1/Products/Search/{query}");
         }
+        
+        [HttpDelete] 
+        public async Task<HttpResponseMessage> RemoveProduct(int id)
+        {
+            var response = await _httpClient.DeleteAsync($"/api/v1/Products/{id}");
+
+            return response;
+        }
+        
+        [HttpPost]
+        public async Task<HttpResponseMessage> AddProduct(Product product)
+        {
+            string productJson = JsonConvert.SerializeObject(product);
+            StringContent content = new StringContent(productJson, Encoding.UTF8, "application/json");
+
+            HttpResponseMessage response = await _httpClient.PostAsync("/api/v1/Products", content);
+
+            return response;
+        }
+        
+        
+
     }
 }

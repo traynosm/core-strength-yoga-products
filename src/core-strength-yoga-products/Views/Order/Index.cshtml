@@ -1,4 +1,5 @@
-﻿@model core_strength_yoga_products.Models.Order;
+﻿@using Microsoft.IdentityModel.Tokens
+@model core_strength_yoga_products.Models.Order;
 <div class="container-fluid p-5">
     <a href="/Basket" <input type="submit" class="primary-btn checkout-btn mb-2"/> <i class="fa fa-arrow-left m-2"></i> Back To Basket</a>
     @*Order Detail Table*@
@@ -63,17 +64,19 @@
 </table>
 
 
-@*Shipping address Table*@
-    <h5 class="mb-2">Shipping Address</h5>
-    <table class="table mb-5">
-    <tbody>
-        <tr>
-            <th>
-                Street Address
-            </th>
-            <th>
-                @Html.DisplayNameFor(m => m.Customer.CustomerDetail.Addresses.First().City)
-            </th>
+    @*Shipping address Table*@
+    @if(!Model.Customer.CustomerDetail.Addresses.IsNullOrEmpty())
+    {
+        <h5 class="mb-2">Shipping Address</h5>
+        <table class="table mb-5">
+            <tbody>
+            <tr>
+                <th>
+                    Street Address
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Customer.CustomerDetail.Addresses.First().City)
+                </th>
                 <th>
                     @Html.DisplayNameFor(m => m.Customer.CustomerDetail.Addresses.First().County)
                 </th>
@@ -83,15 +86,15 @@
                 <th>
                     @Html.DisplayNameFor(m => m.Customer.CustomerDetail.Addresses.First().PostCode)
                 </th>
-        </tr>
-        <tr>
-            <td>
+            </tr>
+            <tr>
+                <td>
                     @Html.DisplayFor(m => m.Customer.CustomerDetail.Addresses.First().StreetAddr)
                     @Html.DisplayFor(m => m.Customer.CustomerDetail.Addresses.First().AddrLine2)
-            </td>
-            <td>
+                </td>
+                <td>
                     @Html.DisplayFor(m => m.Customer.CustomerDetail.Addresses.First().City)
-            </td>
+                </td>
                 <td>
                     @Html.DisplayFor(m => m.Customer.CustomerDetail.Addresses.First().County)
                 </td>
@@ -101,9 +104,11 @@
                 <td>
                     @Html.DisplayFor(m => m.Customer.CustomerDetail.Addresses.First().PostCode)
                 </td>
-        </tr>
-    </tbody>
-</table>
+            </tr>
+            </tbody>
+        </table> 
+    }
+    
 
 <h5 class="mb-3">Order Total: €@Model.OrderTotal.ToString("0.00")</h5>
     <a href="/Order/Payment" class="primary-btn checkout-btn mb-2">Proceed To Payment</a>

@@ -27,4 +27,8 @@
     <None Include="wwwroot\css\index.css" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\MessagePopup" />
+  </ItemGroup>
+
 </Project>

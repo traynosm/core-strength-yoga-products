@@ -33,8 +33,28 @@ namespace core_strength_yoga_products.Controllers
             HttpContext.Session.SetString("cart", cart);
             HttpContext.Session.SetString("cartTotal", "€0.00");
             var home = new Home();
-            var categories = _productCategoryService.GetCategories().Result;
-            var types = _prodcuctTypeService.GetTypes().Result;
+            var categories = new List<ProductCategory>();
+            var types = new List<ProductType>();
+            
+            var categoryResult = _productCategoryService.GetCategories();
+            var typeResult = _prodcuctTypeService.GetTypes();
+            if (categoryResult.Result != null)
+            {
+                categories = (List<ProductCategory>) categoryResult.Result;
+            }
+            else
+            {
+                categories = null;
+            }
+
+            if (categoryResult.Result != null)
+            {
+                types = (List<ProductType>) typeResult.Result;
+            }
+            else
+            {
+                types = null;
+            }
 
             home.productCategories = categories;
             home.productTypes = types;

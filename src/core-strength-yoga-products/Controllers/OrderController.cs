@@ -44,8 +44,8 @@ namespace core_strength_yoga_products.Controllers
             var sessionCart = HttpContext.Session.GetString("cart");
             var cart = JsonConvert.DeserializeObject<List<BasketItem>>(sessionCart!);
 
-            var user = HttpContext.User.Identity;
-            if (user == null || string.IsNullOrEmpty(user.Name))
+            var user = GlobalData.Username;
+            if (user == null)
             {
                 return Redirect("/Identity/Account/Login");
             }
@@ -60,8 +60,8 @@ namespace core_strength_yoga_products.Controllers
             var sessionCart = HttpContext.Session.GetString("cart");
             var cart = JsonConvert.DeserializeObject<List<BasketItem>>(sessionCart!);
 
-            var user = HttpContext.User.Identity;
-            if (user == null || string.IsNullOrEmpty(user.Name))
+            var user = GlobalData.Username;
+            if (user == null )
             {
                 return Redirect("/Identity/Account/Login");
             }
@@ -75,7 +75,7 @@ namespace core_strength_yoga_products.Controllers
             return RedirectToAction("Index", "Payment", new { Order = savedOrder});
         }
 
-        private async Task<Order> BuildOrderFromCart(IEnumerable<BasketItem> cart, IIdentity user)
+        private async Task<Order> BuildOrderFromCart(IEnumerable<BasketItem> cart, String user)
         {
             var productsInBasket = new List<Product>();
             foreach (var basketItem in cart)
@@ -91,7 +91,7 @@ namespace core_strength_yoga_products.Controllers
                 basketItem.Size = productAttribute.Size;
             }
 
-            var customer = await _customerService.GetCustomerByUsername(user.Name!);
+            var customer = await _customerService.GetCustomerByUsername(user);
 
             var orderTotal = await _basketService.CalculateTotalBasketCost(cart);
             var order = new Order()
@@ -104,6 +104,16 @@ namespace core_strength_yoga_products.Controllers
             };
 
             return order;
+        }
+        
+        
+        public async Task<ActionResult> OrderHistory()
+        {
+
+            Orders orders = new Orders();
+            var orderList = await _orderService.GetOrdersByUsername();
+            orders.PreviousOrders = orderList;
+            return View("OrderHistory", orders);
         }
 
     }
