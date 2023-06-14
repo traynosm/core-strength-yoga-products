@@ -20,7 +20,7 @@ public class DepartmentService : IDepartmentService
     public async Task<IEnumerable<ProductCategory>> GetDepartments()
     {
         var response =  await _httpClient.GetFromJsonAsync<IEnumerable<ProductCategory>>(
-            "/Products/ByType") ?? throw new Exception();
+            "/api/v1/Products/ByType") ?? throw new Exception();
 
         return response;
     }

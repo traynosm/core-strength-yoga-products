@@ -1,10 +1,63 @@
-﻿@model IEnumerable<core_strength_yoga_products.Models.Product>
+﻿@using core_strength_yoga_products.Models.Enums;
+@using core_strength_yoga_products.Models;
+@model IEnumerable<core_strength_yoga_products.Models.Product>
 @{
-    var productCategoryId = ViewData["productCategoryId"];
+    var productCategoryId = ViewData["productCategoryId"] ?? 1;
+    var productTypeId = ViewData["productTypeId"] ?? 1;
+    int.TryParse(ViewData["genderId"]?.ToString(), out int genderId);
+    int.TryParse(ViewData["sizeId"]?.ToString(), out int sizeId);
+    int.TryParse(ViewData["colourId"]?.ToString(), out int colourId);
+
+    var showFilter = (bool?)ViewData["showFilter"] ?? true;
+
+    var genders = Enum.GetValues(typeof(Gender)).Cast<Gender>().ToList();
+    var sizes = Enum.GetValues(typeof(Size)).Cast<Size>().ToList();
+    var colours = Enum.GetValues(typeof(Colour)).Cast<Colour>().ToList();
 }
 
 <div class="banner-section spad">
-    <a href="/Shop/ProductTypes?productCategoryId=@productCategoryId"<input type="submit" class="primary-btn checkout-btn" />Back To Product Type</a></a>
+    <div class="row">
+        <div class="col-2">
+
+            @if (showFilter)
+            {
+                <form asp-controller="Shop" asp-action="FilterProductsFromPost" method="post">
+                    <input type="hidden" value="@productCategoryId" id="ProductCategory" name="ProductCategory" />
+                    <input type="hidden" value="@productTypeId" id="ProductType" name="ProductType" />
+                    <section class="m-2">
+                        <div>Gender</div>
+                        @foreach (var value in @genders)
+                        {
+                            var @id = (int)value;
+                            var @isChecked = @id == genderId || @id == 0 ? true : false;
+                            <input type="radio" name="Gender" value="@id" checked="@isChecked"/>@value.ToString()<br />
+                        }
+                    </section>
+                    <section class="m-2">
+                        <div>Size</div>
+                        @foreach (var value in @sizes)
+                        {
+                            var @id = (int)value;
+                            var @isChecked = @id == sizeId || @id == 0 ? true : false;
+                            <input type="radio" name="Size" value="@id" checked="@isChecked" />@value.ToString()<br />
+                        }
+                    </section>
+                    <section class="m-2">
+                        <div>Colour</div>
+                        @foreach (var value in @colours)
+                        {
+                            var @id = (int)value;
+                            var @isChecked = @id == colourId || @id == 0 ? true : false;
+                            <input type="radio" name="Colour" value="@id" checked="@isChecked"/>@value.ToString()
+                            <br />
+                        }
+                    </section>
+        <input type="submit" value="Filter" class="primary-btn checkout-btn"/>
+    </form>
+    }
+        </div>
+        <div class="col-10">
+    <a href="/Shop/ProductTypes?productCategoryId=@productCategoryId"<input type="submit" class="primary-btn checkout-btn"/> <i class="fa fa-arrow-left m-2"></i> Back To Product Type</a>
     <div class="container-fluid">
         <div class="row">
             @foreach(var product in Model)
@@ -13,119 +66,7 @@
             }
         </div>
     </div>
+    </div>
+    </div>
 </div>
 
-@*<section class="women-banner spad">
-  <div class="container-fluid">
-      <div class="row">
-          <div class="col-lg-3">
-              <div class="product-large set-bg" data-setbg="../images/women-large.jpg">
-                  <h2></h2>
-                  <a href="#">Discover More</a>
-              </div>
-          </div>
-          <div class="col-lg-8 offset-lg-1">
-              <div class="filter-control">
-                  <ul>
-                      <li class="active">Mats</li>
-                      <li>Blocks</li>
-                      <li>Straps</li>
-                      <li>Accessories</li>
-                  </ul>
-              </div>
-              <div class="product-slider owl-carousel">
-                  <div class="product-item">
-                      <div class="pi-pic">
-                          <img src="~/images/women-1.jpg" alt="" />
-                          <div class="sale">Sale</div>
-                          <div class="icon">
-                              <i class="icon_heart_alt"></i>
-                          </div>
-                          <ul>
-                              <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
-                              <li class="quick-view"><a href="#">+ Quick View</a></li>
-                              <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
-                          </ul>
-                      </div>
-                      <div class="pi-text">
-                          <div class="catagory-name">Coat</div>
-                          <a href="#">
-                              <h5>Pure Pineapple</h5>
-                          </a>
-                          <div class="product-price">
-                              $14.00
-                              <span>$35.00</span>
-                          </div>
-                      </div>
-                  </div>
-                  <div class="product-item">
-                      <div class="pi-pic">
-                          <img src="~/images/women-2.jpg" alt="" />
-                          <div class="icon">
-                              <i class="icon_heart_alt"></i>
-                          </div>
-                          <ul>
-                              <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
-                              <li class="quick-view"><a href="#">+ Quick View</a></li>
-                              <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
-                          </ul>
-                      </div>
-                      <div class="pi-text">
-                          <div class="catagory-name">Shoes</div>
-                          <a href="#">
-                              <h5>Guangzhou sweater</h5>
-                          </a>
-                          <div class="product-price">
-                              $13.00
-                          </div>
-                      </div>
-                  </div>
-                  <div class="product-item">
-                      <div class="pi-pic">
-                          <img src="~/images/women-3.jpg" alt="" />
-                          <div class="icon">
-                              <i class="icon_heart_alt"></i>
-                          </div>
-                          <ul>
-                              <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
-                              <li class="quick-view"><a href="#">+ Quick View</a></li>
-                              <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
-                          </ul>
-                      </div>
-                      <div class="pi-text">
-                          <div class="catagory-name">Towel</div>
-                          <a href="#">
-                              <h5>Pure Pineapple</h5>
-                          </a>
-                          <div class="product-price">
-                              $34.00
-                          </div>
-                      </div>
-                  </div>
-                  <div class="product-item">
-                      <div class="pi-pic">
-                          <img src="~/images/women-4.jpg" alt="" />
-                          <div class="icon">
-                              <i class="icon_heart_alt"></i>
-                          </div>
-                          <ul>
-                              <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
-                              <li class="quick-view"><a href="#">+ Quick View</a></li>
-                              <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
-                          </ul>
-                      </div>
-                      <div class="pi-text">
-                          <div class="catagory-name">Towel</div>
-                          <a href="#">
-                              <h5>Converse Shoes</h5>
-                          </a>
-                          <div class="product-price">
-                              $34.00
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>
-  </div>
-</section>*@

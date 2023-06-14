@@ -44,13 +44,13 @@ namespace core_strength_yoga_products.Controllers
             var sessionCart = HttpContext.Session.GetString("cart");
             var cart = JsonConvert.DeserializeObject<List<BasketItem>>(sessionCart!);
 
-            var user = HttpContext.User.Identity;
-            if (user == null || string.IsNullOrEmpty(user.Name))
+            //var user = HttpContext.User.Identity;
+            if (!GlobalData.isSignedIn)
             {
                 return Redirect("/Identity/Account/Login");
             }
 
-            var order = await BuildOrderFromCart(cart!, user);
+            var order = await BuildOrderFromCart(cart!);
 
             return View(order);
         }
@@ -60,13 +60,12 @@ namespace core_strength_yoga_products.Controllers
             var sessionCart = HttpContext.Session.GetString("cart");
             var cart = JsonConvert.DeserializeObject<List<BasketItem>>(sessionCart!);
 
-            var user = HttpContext.User.Identity;
-            if (user == null || string.IsNullOrEmpty(user.Name))
+            if (!GlobalData.isSignedIn)
             {
                 return Redirect("/Identity/Account/Login");
             }
 
-            var order = await BuildOrderFromCart(cart, user);
+            var order = await BuildOrderFromCart(cart);
 
             //post to api
             
@@ -75,7 +74,7 @@ namespace core_strength_yoga_products.Controllers
             return RedirectToAction("Index", "Payment", new { Order = savedOrder});
         }
 
-        private async Task<Order> BuildOrderFromCart(IEnumerable<BasketItem> cart, IIdentity user)
+        private async Task<Order> BuildOrderFromCart(IEnumerable<BasketItem> cart)
         {
             var productsInBasket = new List<Product>();
             foreach (var basketItem in cart)
@@ -91,7 +90,7 @@ namespace core_strength_yoga_products.Controllers
                 basketItem.Size = productAttribute.Size;
             }
 
-            var customer = await _customerService.GetCustomerByUsername(user.Name!);
+            var customer = await _customerService.GetCustomerByUsername(GlobalData.Username);
 
             var orderTotal = await _basketService.CalculateTotalBasketCost(cart);
             var order = new Order()

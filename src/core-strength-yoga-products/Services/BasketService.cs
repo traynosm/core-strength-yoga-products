@@ -22,7 +22,7 @@ namespace core_strength_yoga_products.Services
         }
         public async Task<BasketItem?> CalculateItemTotal(BasketItem basketItem)
         {
-            var response = await _httpClient.PostAsJsonAsync("/BasketItem/CalculateItemTotalCost", basketItem);
+            var response = await _httpClient.PostAsJsonAsync("/api/v1/BasketItem/CalculateItemTotalCost", basketItem);
             var content = await response.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<BasketItem>(content);
 
@@ -30,7 +30,7 @@ namespace core_strength_yoga_products.Services
         }
         public async Task<decimal> CalculateTotalBasketCost(IEnumerable<BasketItem> basketItems)
         {
-            var response = await _httpClient.PostAsJsonAsync("/BasketItem/CalculateTotalBasketCost", basketItems);
+            var response = await _httpClient.PostAsJsonAsync("/api/v1/BasketItem/CalculateTotalBasketCost", basketItems);
             var content = await response.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<decimal>(content);
 

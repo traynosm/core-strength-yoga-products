@@ -5,8 +5,11 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using core_strength_yoga_products.Controllers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
@@ -14,19 +17,25 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using core_strength_yoga_products.Interfaces;
+using core_strength_yoga_products.Models;
+using Microsoft.CodeAnalysis.Elfie.Serialization;
+using Newtonsoft.Json.Linq;
+
 
 namespace core_strength_yoga_products.Areas.Identity.Pages.Account
 {
     public class LoginModel : PageModel
     {
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly ILoginService _loginService;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<IdentityUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<IdentityUser> signInManager, ILogger<LoginModel> logger, ILoginService loginService)
         {
             _signInManager = signInManager;
             _logger = logger;
-            _logger = logger;
+            _loginService = loginService;
         }
 
         /// <summary>
@@ -104,14 +113,44 @@ namespace core_strength_yoga_products.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl ??= Url.Content("~/");
+            returnUrl = Url.Content("~/");
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             if (ModelState.IsValid)
             {
+
+                UserModel userModel = new UserModel();
+                userModel.Username = Input.Email;
+                userModel.Password = Input.Password;
+
+               var jsonString = await _loginService.Login(userModel);
+                if(jsonString != null)
+                {
+                    var jsonObject = JObject.Parse(jsonString);
+                    var tokenValue = jsonObject.GetValue("token").ToString();
+                    var tokenHandler = new JwtSecurityTokenHandler();
+
+                    // Read the JWT token
+                    var jwtToken = tokenHandler.ReadJwtToken(tokenValue);
+
+                    // Create a new ClaimsIdentity
+                    var claimsIdentity = new ClaimsIdentity(jwtToken.Claims);
+
+                    // Create a new ClaimsPrincipal and assign the ClaimsIdentity
+                    var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+                    // _signInManager.UserManager.FindByIdAsync(userModel.Username);
+                    //User.Claims = claimsPrincipal;
+                    return LocalRedirect(returnUrl);
+                }else
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    return Page();
+                }
+
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
+               
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
@@ -132,6 +171,9 @@ namespace core_strength_yoga_products.Areas.Identity.Pages.Account
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                     return Page();
                 }
+
+
+
             }
 
             // If we got this far, something failed, redisplay form

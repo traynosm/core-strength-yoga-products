@@ -20,7 +20,7 @@ public class CustomerService : ICustomerService
     public async Task<Customer> GetCustomerByUsername(string username)
     {
         var response = await _httpClient.GetFromJsonAsync<Customer>(
-            $"/Customer/GetByUserName/{username}") ?? throw new Exception();
+            $"/api/v1/Customer/GetByUserName/{username}") ?? throw new Exception();
 
         return response;
     }
