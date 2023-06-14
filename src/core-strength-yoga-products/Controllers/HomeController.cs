@@ -31,6 +31,7 @@ namespace core_strength_yoga_products.Controllers
             var home = new Home();
             var categories = new List<ProductCategory>();
             var types = new List<ProductType>();
+            
             try
             {
                 var categoryResult = await GetCategories();

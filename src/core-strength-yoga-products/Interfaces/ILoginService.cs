@@ -5,8 +5,8 @@ namespace core_strength_yoga_products.Interfaces
 {
     public interface ILoginService
     {
-        Task<String> Login(UserModel userModel);
-        Task<String> Register(Customer customer);
+        Task<HttpResponseMessage> Login(UserModel userModel);
+        Task<HttpResponseMessage> Register(Customer customer);
 
         Task<String> Dummy();
     }
