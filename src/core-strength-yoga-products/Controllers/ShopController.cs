@@ -1,28 +1,21 @@
-﻿using core_strength_yoga_products.Data;
-using Microsoft.AspNetCore.Mvc;
+﻿using core_strength_yoga_products.Models;
 using core_strength_yoga_products.Services;
-using Microsoft.EntityFrameworkCore;
-using System.Net.Http;
-using core_strength_yoga_products.Models;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using core_strength_yoga_products.Models.Enums;
 
 namespace core_strength_yoga_products.Controllers
 {
     public class ShopController : Controller
     {
         private readonly ILogger<ShopController> _logger;
-        private readonly core_strength_yoga_productsContext  _dbContext;
-        private readonly IHttpClientFactory _clientFactory;
         private readonly IProductCategoryService _productCategoryService;
         private readonly IProductTypeService _productTypeService;
         private readonly IProductService _productService;
 
-        public ShopController(ILogger<ShopController> logger, core_strength_yoga_productsContext dbContext, IHttpClientFactory clientFactory, IProductCategoryService productCategoryService, IProductTypeService productTypeService, IProductService productService)
+        public ShopController(ILogger<ShopController> logger, IProductCategoryService productCategoryService, 
+            IProductTypeService productTypeService, IProductService productService)
         {
             _logger = logger;
-            _dbContext = dbContext;
-            _clientFactory = clientFactory;
             _productCategoryService = productCategoryService;
             _productTypeService = productTypeService;
             _productService = productService;
