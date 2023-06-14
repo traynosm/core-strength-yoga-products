@@ -98,6 +98,6 @@ namespace core_strength_yoga_products.Services
             
             return resultContent;
         }
-        
+                
     }
 }
