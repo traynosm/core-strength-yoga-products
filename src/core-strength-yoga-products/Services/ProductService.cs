@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Net.Http.Headers;
+using System.Text;
 using core_strength_yoga_products.Models;
 using core_strength_yoga_products.Settings;
 using Microsoft.AspNetCore.Mvc;
@@ -46,6 +47,17 @@ namespace core_strength_yoga_products.Services
         [HttpDelete] 
         public async Task<HttpResponseMessage> RemoveProduct(int id)
         {
+            
+            _httpClient.DefaultRequestHeaders
+                .Accept
+                .Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            if (GlobalData.JWT != null)
+            {
+                _httpClient.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", GlobalData.JWT);
+            }
+            
             var response = await _httpClient.DeleteAsync($"/api/v1/Products/{id}");
 
             return response;
@@ -55,6 +67,17 @@ namespace core_strength_yoga_products.Services
         public async Task<HttpResponseMessage> AddProduct(Product product)
         {
             string productJson = JsonConvert.SerializeObject(product);
+            
+            _httpClient.DefaultRequestHeaders
+                .Accept
+                .Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            if (GlobalData.JWT != null)
+            {
+                _httpClient.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", GlobalData.JWT);
+            }
+            
             StringContent content = new StringContent(productJson, Encoding.UTF8, "application/json");
 
             HttpResponseMessage response = await _httpClient.PostAsync("/api/v1/Products", content);
