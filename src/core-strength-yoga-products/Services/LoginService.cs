@@ -121,8 +121,7 @@ namespace core_strength_yoga_products.Services
             //User.Claims = claimsPrincipal;
             
             return result;
-        }
-        
+        }       
         
         public async Task<String> Dummy( )
         {
@@ -142,6 +141,5 @@ namespace core_strength_yoga_products.Services
             
             return resultContent;
         }
-
     }
 }

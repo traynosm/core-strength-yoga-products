@@ -23,8 +23,10 @@
 @* <ul class="navbar-nav"> *@
 @if (GlobalData.isSignedIn)
 {
-    <a href="~/Logout" class="login-panel"><i class="fa fa-user"></i>Logout</a>
-    <span class="login-panel">Welcome @GlobalData.Username! </span>
+    <div>
+    <a href="~/LogoutP/Logout" class="login-panel"><i class="fa fa-user"></i>Logout</a>
+            <span>Hello @GlobalData.Username!</span>    
+    </div>
 }
 else
 {
