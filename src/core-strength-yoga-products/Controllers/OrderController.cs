@@ -44,7 +44,8 @@ namespace core_strength_yoga_products.Controllers
             var sessionCart = HttpContext.Session.GetString("cart");
             var cart = JsonConvert.DeserializeObject<List<BasketItem>>(sessionCart!);
 
-            //var user = HttpContext.User.Identity;
+            var user = GlobalData.Username;
+
             if (!GlobalData.isSignedIn)
             {
                 return Redirect("/Identity/Account/Login");
@@ -59,6 +60,9 @@ namespace core_strength_yoga_products.Controllers
         {
             var sessionCart = HttpContext.Session.GetString("cart");
             var cart = JsonConvert.DeserializeObject<List<BasketItem>>(sessionCart!);
+
+            var user = GlobalData.Username;
+            if (user == null )
 
             if (!GlobalData.isSignedIn)
             {
@@ -90,6 +94,7 @@ namespace core_strength_yoga_products.Controllers
                 basketItem.Size = productAttribute.Size;
             }
 
+
             var customer = await _customerService.GetCustomerByUsername(GlobalData.Username);
 
             var orderTotal = await _basketService.CalculateTotalBasketCost(cart);
@@ -103,6 +108,16 @@ namespace core_strength_yoga_products.Controllers
             };
 
             return order;
+        }
+        
+        
+        public async Task<ActionResult> OrderHistory()
+        {
+
+            Orders orders = new Orders();
+            var orderList = await _orderService.GetOrdersByUsername();
+            orders.PreviousOrders = orderList;
+            return View("OrderHistory", orders);
         }
 
     }

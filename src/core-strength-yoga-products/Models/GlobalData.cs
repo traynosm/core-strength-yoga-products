@@ -5,4 +5,5 @@ public static class GlobalData
     public static string Username { get; set; }
     public static string JWT { get; set; }
     public static bool isSignedIn { get; set; }
+    public static bool isAdmin { get; set; }
 }

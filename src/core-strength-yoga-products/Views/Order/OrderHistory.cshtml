@@ -1,0 +1,37 @@
+@using Microsoft.IdentityModel.Tokens
+@using Microsoft.AspNetCore.Server.Kestrel.Core
+@model core_strength_yoga_products.Models.Orders;
+
+@{
+    bool previousOrders = (Model != null && Model.PreviousOrders != null);
+}
+<div class="container-fluid p-5">
+    @*Previous Orders Table*@
+    <h5 class="mb-2">Order Details</h5>
+    @if (previousOrders)
+    {
+        <table class="table mb-3">
+            <tbody>
+            @foreach (var item in Model.PreviousOrders)
+            {
+                <tr>
+                    <td>
+                        Order Id: @item.Id
+                    </td>
+                    <td>
+                        Order Date: @item.DateOfSale
+                    </td>
+                    <td>
+                        Order Total: @item.OrderTotal
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>  
+    }
+    @if (!previousOrders)
+        {
+            <h2>You have no previous Orders</h2>
+        }
+   
+</div>
