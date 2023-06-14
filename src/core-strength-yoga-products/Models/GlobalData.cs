@@ -14,5 +14,5 @@ public static class GlobalData
         isSignedIn = false;
     }
     
+    public static bool isAdmin { get; set; }
 }
-

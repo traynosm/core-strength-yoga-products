@@ -1,0 +1,50 @@
+@model Home;
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="banner-section spad">
+    <div class="container-fluid">
+      <div class="row">
+          <h3>Edit Products</h3>
+          <hr>
+         <table class="table">
+                  <thead>
+                  <tr>
+                      <th scope="col">Id</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Description</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  @foreach (var type in Model.products)
+                  {
+                                    
+                      <tr>
+                          <th scope="row">@type.Id</th>
+                          <td>@type.Name</td>
+                          <td>@type.Description</td>
+                          <td>
+                              <form method="post" asp-action="RemoveProduct">
+                                  <input type="hidden" name="Id" value="@type.Id" />
+                                  <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>
+                              </form>
+                          </td>
+                      </tr>
+                  }
+                  </tbody>
+              </table>
+          
+      </div>
+  </div>
+  <br>
+  <br>
+  <div class="container-fluid">
+          <div class="row">
+            <a asp-controller="Admin" asp-action="AddProducts">Add Product</a>
+          </div>
+      </div>
+  
+</div>
+

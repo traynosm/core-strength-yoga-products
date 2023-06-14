@@ -9,6 +9,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using core_strength_yoga_products.Controllers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
@@ -112,7 +113,7 @@ namespace core_strength_yoga_products.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl ??= Url.Content("~/");
+            returnUrl = Url.Content("~/Views/Order/OrderHistory.cshtml");
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
@@ -123,10 +124,11 @@ namespace core_strength_yoga_products.Areas.Identity.Pages.Account
                 userModel.Username = Input.Email;
                 userModel.Password = Input.Password;
 
-               var jsonString = await _loginService.Login(userModel);
-                if(jsonString != null)
+               var result = await _loginService.Login(userModel);
+               string resultContent = await result.Content.ReadAsStringAsync();
+                if(result.IsSuccessStatusCode)
                 {
-                    var jsonObject = JObject.Parse(jsonString);
+                    var jsonObject = JObject.Parse(resultContent);
                     var tokenValue = jsonObject.GetValue("token").ToString();
                     var tokenHandler = new JwtSecurityTokenHandler();
 
@@ -140,36 +142,13 @@ namespace core_strength_yoga_products.Areas.Identity.Pages.Account
                     var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
                     // _signInManager.UserManager.FindByIdAsync(userModel.Username);
                     //User.Claims = claimsPrincipal;
-                    return LocalRedirect(returnUrl);
+                    return RedirectToAction("OrderHistory", "Order");
                 }else
                 {
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                     return Page();
                 }
-
-                // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-               
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
-                if (result.Succeeded)
-                {
-                    _logger.LogInformation("User logged in.");
-                    return LocalRedirect(returnUrl);
-                }
-                if (result.RequiresTwoFactor)
-                {
-                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
-                }
-                if (result.IsLockedOut)
-                {
-                    _logger.LogWarning("User account locked out.");
-                    return RedirectToPage("./Lockout");
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return Page();
-                }
+                
 
 
 
