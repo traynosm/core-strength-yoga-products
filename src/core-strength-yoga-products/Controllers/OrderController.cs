@@ -1,40 +1,25 @@
-﻿using core_strength_yoga_products.Data;
-using core_strength_yoga_products.Models;
+﻿using core_strength_yoga_products.Models;
 using core_strength_yoga_products.Services;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using System.Security.Principal;
 
 namespace core_strength_yoga_products.Controllers
 {
     public class OrderController : Controller
     {
         private readonly ILogger<OrderController> _logger;
-        private readonly core_strength_yoga_productsContext _dbContext;
-        private readonly IHttpClientFactory _clientFactory;
-        private readonly IProductCategoryService _productCategoryService;
-        private readonly IProductTypeService _productTypeService;
         private readonly IProductService _productService;
         private readonly IBasketService _basketService;
         private readonly ICustomerService _customerService;
-        private readonly UserManager<IdentityUser> _userManager;
         private readonly IOrderService _orderService;
 
-        public OrderController(ILogger<OrderController> logger, core_strength_yoga_productsContext dbContext, 
-            IHttpClientFactory clientFactory, IProductCategoryService productCategoryService,
-            IProductTypeService productTypeService, IProductService productService, IBasketService basketService,
-            ICustomerService customerService, UserManager<IdentityUser> userManager, IOrderService orderService)
+        public OrderController(ILogger<OrderController> logger, IProductService productService, IBasketService basketService,
+            ICustomerService customerService, IOrderService orderService)
         {
             _logger = logger;
-            _dbContext = dbContext;
-            _clientFactory = clientFactory;
-            _productCategoryService = productCategoryService;
-            _productTypeService = productTypeService;
             _productService = productService;
             _basketService = basketService;
             _customerService = customerService;
-            _userManager = userManager;
             _orderService = orderService;
         }
 
@@ -44,8 +29,7 @@ namespace core_strength_yoga_products.Controllers
             var sessionCart = HttpContext.Session.GetString("cart");
             var cart = JsonConvert.DeserializeObject<List<BasketItem>>(sessionCart!);
 
-            var user = GlobalData.Username;
-
+            //var user = HttpContext.User.Identity;
             if (!GlobalData.isSignedIn)
             {
                 return Redirect("/Identity/Account/Login");
@@ -60,9 +44,6 @@ namespace core_strength_yoga_products.Controllers
         {
             var sessionCart = HttpContext.Session.GetString("cart");
             var cart = JsonConvert.DeserializeObject<List<BasketItem>>(sessionCart!);
-
-            var user = GlobalData.Username;
-            if (user == null )
 
             if (!GlobalData.isSignedIn)
             {
@@ -94,7 +75,6 @@ namespace core_strength_yoga_products.Controllers
                 basketItem.Size = productAttribute.Size;
             }
 
-
             var customer = await _customerService.GetCustomerByUsername(GlobalData.Username);
 
             var orderTotal = await _basketService.CalculateTotalBasketCost(cart);
@@ -108,16 +88,6 @@ namespace core_strength_yoga_products.Controllers
             };
 
             return order;
-        }
-        
-        
-        public async Task<ActionResult> OrderHistory()
-        {
-
-            Orders orders = new Orders();
-            var orderList = await _orderService.GetOrdersByUsername();
-            orders.PreviousOrders = orderList;
-            return View("OrderHistory", orders);
         }
 
     }

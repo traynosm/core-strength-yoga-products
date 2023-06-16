@@ -56,8 +56,7 @@ namespace core_strength_yoga_products
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
-                
+                app.UseDeveloperExceptionPage();            
             }
             else
             {
