@@ -37,12 +37,7 @@ body {
     left: calc(50% - 32px);
 }
 
-.preloader div {
-    display: none;
-    /* Preload the Second Pricing Image */
-    background: url(../images/pricing2.jpg) no-repeat 9999px 9999px;
-    background-position: 9999px 9999px;
-}
+
 
 /* Typography */
 
@@ -109,15 +104,6 @@ ul.white-list li:before {
     background: white;
 }
 
-header {
-    margin-top: 50px;
-    position: relative;
-    width: 100%;
-    color: white;
-    background: rgba(28, 36, 65, 0.93);
-    background: url('../images/header.jpg');
-    background-size: cover;
-}
 
 header .table {
     display: table;
@@ -294,15 +280,6 @@ section {
     background-position: 0% 0%;
 }
 
-.intro-table-first {
-    background-image: url('../images/table-1.jpg');
-}
-
-.intro-table-hover {
-    -webkit-transition: background-image 0.3s ease, background-position 0.3s;
-    transition: background-image 0.3s ease, background-position 0.3s;
-    background-image: url('../images/table-2.jpg');
-}
 
 .intro-table-hover h4 {
     -webkit-transform: translateY(170px);
@@ -311,14 +288,6 @@ section {
     transition: transform 0.3s;
 }
 
-.intro-table-hover:hover {
-    background-image: url('../images/table-2-hover.jpg');
-    background-position: 50% 50%;
-}
-
-.intro-table-third {
-    background-image: url('../images/table-3.jpg');
-}
 
 .intro-table-hover .expand {
     margin: 30px;
@@ -754,14 +723,7 @@ footer .social-footer li:hover a {
     margin: 0 auto;
 }
 
-.modal-popup {
-    position: relative;
-    padding: 45px 30px;
-    text-align: center;
-    background: url('../images/popup.jpg');
-    box-shadow: none;
-    border-radius: 2px;
-}
+
 
 .modal-popup a.close-link {
     font-size: 22px;
