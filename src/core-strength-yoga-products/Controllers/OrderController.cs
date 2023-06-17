@@ -30,6 +30,7 @@ namespace core_strength_yoga_products.Controllers
             var cart = JsonConvert.DeserializeObject<List<BasketItem>>(sessionCart!);
 
             //var user = HttpContext.User.Identity;
+
             if (!GlobalData.isSignedIn)
             {
                 return Redirect("/Identity/Account/Login");
@@ -90,5 +91,13 @@ namespace core_strength_yoga_products.Controllers
             return order;
         }
 
+        public async Task<ActionResult> OrderHistory()
+        {
+
+            Orders orders = new Orders();
+            var orderList = await _orderService.GetOrdersByUsername();
+            orders.PreviousOrders = orderList;
+            return View("OrderHistory", orders);
+        }
     }
 }
