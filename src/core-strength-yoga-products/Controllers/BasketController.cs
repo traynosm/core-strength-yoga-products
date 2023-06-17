@@ -1,12 +1,9 @@
 ﻿using core_strength_yoga_products.Data;
 using core_strength_yoga_products.Models;
 using core_strength_yoga_products.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
-using Microsoft.Identity.Client;
 using Newtonsoft.Json;
-using NuGet.Packaging.Signing;
 
 namespace core_strength_yoga_products.Controllers
 {

@@ -4,6 +4,7 @@ public class Home
 {
     public IEnumerable<ProductCategory> productCategories { get; set; }
     public IEnumerable<ProductType> productTypes { get; set; }
+    public IEnumerable<Product> products { get; set; }
 
     public Home() { }
 }

@@ -8,6 +8,7 @@ using core_strength_yoga_products.Settings;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.Extensions.Options;
 using System.Text.Json;
+using core_strength_yoga_products.Controllers;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Elfie.Serialization;
@@ -26,7 +27,7 @@ namespace core_strength_yoga_products.Services
             _httpClient.BaseAddress = new Uri(_options.Value.BaseUrl);
         }
 
-        public async Task<String> Login(UserModel userModel )
+        public async Task<HttpResponseMessage> Login(UserModel userModel )
         {
 
             
@@ -36,41 +37,56 @@ namespace core_strength_yoga_products.Services
                 .Add(new MediaTypeWithQualityHeaderValue("application/json"));  
             var result = await _httpClient.PostAsync("/api/v1/auth/login", content);
             string resultContent = await result.Content.ReadAsStringAsync();
-            
-            var jsonObject = JObject.Parse(resultContent);
-            var tokenValue = jsonObject.GetValue("token").ToString();
-            var tokenHandler = new JwtSecurityTokenHandler();
 
-            // Read the JWT token
-            var jwtToken = tokenHandler.ReadJwtToken(tokenValue);
-
-            // Create a new ClaimsIdentity
-            var claimsIdentity = new ClaimsIdentity(jwtToken.Claims);
-            if (claimsIdentity.Name != null)
+            if (result.IsSuccessStatusCode)
             {
-                GlobalData.isSignedIn = true;
-                GlobalData.Username = claimsIdentity.Name;
-                GlobalData.JWT = tokenValue;
-            }
-            if (claimsIdentity.NameClaimType != null)
-            {
-                GlobalData.isSignedIn = true;
-                GlobalData.Username = claimsIdentity.Name;
-                GlobalData.JWT = tokenValue;
-            }
-            
-            // Create a new ClaimsPrincipal and assign the ClaimsIdentity
-            var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+                var jsonObject = JObject.Parse(resultContent);
+                var tokenValue = jsonObject.GetValue("token").ToString();
+                var tokenHandler = new JwtSecurityTokenHandler();
 
-           var contentDummy =  Dummy();
+                // Read the JWT token
+                var jwtToken = tokenHandler.ReadJwtToken(tokenValue);
+
+                // Create a new ClaimsIdentity
+                var claimsIdentity = new ClaimsIdentity(jwtToken.Claims);
+                if (claimsIdentity.Name != null)
+                {
+                    GlobalData.isSignedIn = true;
+                    GlobalData.Username = claimsIdentity.Name;
+                    GlobalData.JWT = tokenValue;
+                }
+
+                if (claimsIdentity.Claims != null)
+                {
+                    GlobalData.isAdmin = false;
+                    foreach (var claim in claimsIdentity.Claims)
+                    {
+                        if (claim.ToString().Contains("role: Admin"))
+                        {
+                            GlobalData.isAdmin = true;
+                        }
+
+                    }
+                }
+                else
+                {
+                    GlobalData.isAdmin = false;
+                }
             
-            // _signInManager.UserManager.FindByIdAsync(userModel.Username);
-            //User.Claims = claimsPrincipal;
+                // Create a new ClaimsPrincipal and assign the ClaimsIdentity
+                var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+
+                var contentDummy =  Dummy();
             
-            return resultContent;
+                // _signInManager.UserManager.FindByIdAsync(userModel.Username);
+                //User.Claims = claimsPrincipal;
+            }
+
+            return result;
+
         }
         
-        public async Task<String> Register(Customer customer )
+        public async Task<HttpResponseMessage> Register(Customer customer )
         {
 
             
@@ -104,9 +120,8 @@ namespace core_strength_yoga_products.Services
             // _signInManager.UserManager.FindByIdAsync(userModel.Username);
             //User.Claims = claimsPrincipal;
             
-            return resultContent;
-        }
-        
+            return result;
+        }       
         
         public async Task<String> Dummy( )
         {
@@ -126,6 +141,5 @@ namespace core_strength_yoga_products.Services
             
             return resultContent;
         }
-        
     }
 }
