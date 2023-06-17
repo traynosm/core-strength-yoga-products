@@ -30,4 +30,8 @@
     <Folder Include="Views\MessagePopup" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Remove="wwwroot\images\banner-1.jpg" />
+  </ItemGroup>
+
 </Project>
