@@ -19,3 +19,5 @@ dotnet add package Microsoft.EntityFrameworkCore.Tools
 Once all packages areRun the following:
 dotnet ef migrations add InitialCreate
 dotnet ef database update
+
+Two users will be created through the API for login. "admin@email.com" and "user@email.com" both will have the same password "Testing123!" (Without quotes.)
