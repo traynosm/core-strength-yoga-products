@@ -14,10 +14,12 @@ dotnet add package Microsoft.EntityFrameworkCore.Design
 
 dotnet add package Microsoft.EntityFrameworkCore.Tools
 
-<!-- dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design -->
-	
-Once all packages areRun the following:
-dotnet ef migrations add InitialCreate
-dotnet ef database update
+Ensure core-strength-yoga-products-api is running prior to running this solution
 
 Two users will be created through the API for login. "admin@email.com" and "user@email.com" both will have the same password "Testing123!" (Without quotes.)
+
+To see the filter working:
+Select Bolster. Select colour: Purple
+This should leave you with only the luxury bolster to select	
+
+
